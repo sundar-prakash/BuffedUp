@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1033391636520",
+    "project_id": "fitrack-b494e",
+    "storage_bucket": "fitrack-b494e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1033391636520:android:581877c7e67077f808751d",
+        "android_client_info": {
+          "package_name": "com.example.fitrack"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDK5DmLIVGxvLD46fZDRPAwtdgraMl7gxQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
