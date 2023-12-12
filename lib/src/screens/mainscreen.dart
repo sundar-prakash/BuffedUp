@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitrack/src/screens/auth/authscreen.dart';
 import 'package:fitrack/src/screens/home/homescreen.dart';
+import 'package:fitrack/src/screens/members/memberscreen.dart';
 import 'package:flutter/material.dart';
 
 class mainscreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class _mainscreenState extends State<mainscreen> {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return const homescreeen();
+          return const homescreen();
         } else {
           return const auth();
         }

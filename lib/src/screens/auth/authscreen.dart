@@ -1,5 +1,5 @@
 import 'package:fitrack/src/services/authService.dart';
-import 'package:fitrack/src/widget/Text.dart';
+import 'package:fitrack/src/widget/text.dart';
 import 'package:flutter/material.dart';
 
 class auth extends StatefulWidget {

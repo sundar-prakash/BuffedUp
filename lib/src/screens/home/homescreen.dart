@@ -1,10 +1,11 @@
-import 'package:fitrack/src/widget/Text.dart';
+import 'package:fitrack/src/screens/members/memberscreen.dart';
 import 'package:fitrack/src/widget/homeprofile.dart';
 import 'package:fitrack/src/widget/pagemenu.dart';
 import 'package:flutter/material.dart';
 
-class homescreeen extends StatelessWidget {
-  const homescreeen({super.key});
+// ignore: camel_case_types
+class homescreen extends StatelessWidget {
+  const homescreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +25,7 @@ class homescreeen extends StatelessWidget {
                 "Members",
                 Icons.group,
                 "45",
+                navigator: memberscreen(),
                 subtext: "Many people!",
               ),
               pagemenu(

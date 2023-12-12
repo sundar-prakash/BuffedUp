@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types
 
-import 'package:fitrack/src/widget/Text.dart';
+import 'package:fitrack/const/Colors.dart';
+import 'package:fitrack/src/widget/text.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -14,7 +15,11 @@ class homeprofile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 123, 147, 226),
+          gradient: LinearGradient(
+              stops: [0, 1],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Color(0xFF3eafe1), Color(0xff6f67e8)]),
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(30),
             bottomRight: Radius.circular(30),

@@ -1,3 +1,8 @@
+// ignore_for_file: camel_case_types
+
+import 'package:fitrack/src/screens/members/newmemberscreen.dart';
+import 'package:fitrack/src/screens/members/viewmemberscreen.dart';
+import 'package:fitrack/src/widget/membertile.dart';
 import 'package:flutter/material.dart';
 
 class memberscreen extends StatefulWidget {
@@ -12,16 +17,31 @@ class _memberscreenState extends State<memberscreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Members"),
+          elevation: 2,
+          title: const Text("Members"),
+          actions: [
+            IconButton(
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => newmemberscreen())),
+                icon: const Icon(Icons.add_circle_outline))
+          ],
         ),
         body: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
-              TextField(
-                decoration:
-                    InputDecoration(label: Text("Search name,reg,phone...")),
+              const TextField(
+                decoration: InputDecoration(
+                    label: Text("Search name,reg,phone..."),
+                    prefixIcon: Icon(Icons.search)),
               ),
-              Column()
+              Column(
+                children: [
+                  membertile("sasuke", 45),
+                  membertile("naruto", 435),
+                  membertile("kakashi", 15),
+                ],
+              )
             ],
           ),
         ));

@@ -1,4 +1,5 @@
-
+import 'package:fitrack/const/Captions.dart';
+import 'package:fitrack/const/Colors.dart';
 import 'package:fitrack/src/screens/mainscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,11 +20,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: '',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      title: title,
+      theme: lightTheme,
       home: mainscreen(),
     );
   }
