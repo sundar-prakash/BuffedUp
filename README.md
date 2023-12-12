@@ -1,4 +1,4 @@
-# fitrack
+# BuffedUp
 
 A new Flutter project.
 
