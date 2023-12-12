@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fitrack/src/screens/auth/authscreen.dart';
-import 'package:fitrack/src/screens/home/homescreen.dart';
-import 'package:fitrack/src/screens/members/memberscreen.dart';
+import 'package:BuffedUp/src/screens/auth/authscreen.dart';
+import 'package:BuffedUp/src/screens/home/homescreen.dart';
+import 'package:BuffedUp/src/screens/members/memberscreen.dart';
 import 'package:flutter/material.dart';
 
 class mainscreen extends StatefulWidget {

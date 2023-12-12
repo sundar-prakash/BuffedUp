@@ -1,5 +1,5 @@
-import 'package:fitrack/src/screens/members/editmemberscreen.dart';
-import 'package:fitrack/src/screens/members/viewmemberscreen.dart';
+import 'package:BuffedUp/src/screens/members/editmemberscreen.dart';
+import 'package:BuffedUp/src/screens/members/viewmemberscreen.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable

@@ -1,9 +1,9 @@
-import 'package:fitrack/const/Captions.dart';
-import 'package:fitrack/const/Colors.dart';
-import 'package:fitrack/src/screens/mainscreen.dart';
+import 'package:BuffedUp/const/Captions.dart';
+import 'package:BuffedUp/const/Colors.dart';
+import 'package:BuffedUp/src/screens/mainscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import '/firebase_options.dart';
+import 'src/services/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

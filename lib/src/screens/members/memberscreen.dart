@@ -1,8 +1,8 @@
 // ignore_for_file: camel_case_types
 
-import 'package:fitrack/src/screens/members/newmemberscreen.dart';
-import 'package:fitrack/src/screens/members/viewmemberscreen.dart';
-import 'package:fitrack/src/widget/membertile.dart';
+import 'package:BuffedUp/src/screens/members/newmemberscreen.dart';
+import 'package:BuffedUp/src/screens/members/viewmemberscreen.dart';
+import 'package:BuffedUp/src/widget/membertile.dart';
 import 'package:flutter/material.dart';
 
 class memberscreen extends StatefulWidget {

@@ -25,7 +25,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -44,38 +47,29 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBd1LLX2Wnm_8Qdntm0sd23jPshubW1Zns',
-    appId: '1:1033391636520:web:ad27bd405df9ab2708751d',
-    messagingSenderId: '1033391636520',
-    projectId: 'fitrack-b494e',
-    authDomain: 'fitrack-b494e.firebaseapp.com',
-    storageBucket: 'fitrack-b494e.appspot.com',
-    measurementId: 'G-CMSKH8H0S8',
+    apiKey: 'AIzaSyBcFlSpnq6Q90AvtwBY4N0lVxZhoheclqQ',
+    appId: '1:56445493620:web:5ae903925108485f90cc21',
+    messagingSenderId: '56445493620',
+    projectId: 'buffedup-e5aa5',
+    authDomain: 'buffedup-e5aa5.firebaseapp.com',
+    storageBucket: 'buffedup-e5aa5.appspot.com',
+    measurementId: 'G-NMT9JQX93T',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDK5DmLIVGxvLD46fZDRPAwtdgraMl7gxQ',
-    appId: '1:1033391636520:android:581877c7e67077f808751d',
-    messagingSenderId: '1033391636520',
-    projectId: 'fitrack-b494e',
-    storageBucket: 'fitrack-b494e.appspot.com',
+    apiKey: 'AIzaSyDtZEG2lheoFYf-2vMieQM2OT84asad7LI',
+    appId: '1:56445493620:android:5b0005f32d20ee4890cc21',
+    messagingSenderId: '56445493620',
+    projectId: 'buffedup-e5aa5',
+    storageBucket: 'buffedup-e5aa5.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCnc5Ix7316t6SEMOqYEDUOVVeriqCEFPU',
-    appId: '1:1033391636520:ios:24fda4c7351c9b4308751d',
-    messagingSenderId: '1033391636520',
-    projectId: 'fitrack-b494e',
-    storageBucket: 'fitrack-b494e.appspot.com',
-    iosBundleId: 'com.example.fitrack',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCnc5Ix7316t6SEMOqYEDUOVVeriqCEFPU',
-    appId: '1:1033391636520:ios:ee88b1b03b888b9308751d',
-    messagingSenderId: '1033391636520',
-    projectId: 'fitrack-b494e',
-    storageBucket: 'fitrack-b494e.appspot.com',
-    iosBundleId: 'com.example.fitrack.RunnerTests',
+    apiKey: 'AIzaSyBf4yGG_lwNGgncA0wUrdSyY2m3Go92UKo',
+    appId: '1:56445493620:ios:3e58553469a12dd190cc21',
+    messagingSenderId: '56445493620',
+    projectId: 'buffedup-e5aa5',
+    storageBucket: 'buffedup-e5aa5.appspot.com',
+    iosBundleId: 'com.okayitssundar.buffedup',
   );
 }

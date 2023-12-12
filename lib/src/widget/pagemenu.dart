@@ -1,4 +1,4 @@
-import 'package:fitrack/const/Colors.dart';
+import 'package:BuffedUp/const/Colors.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable, camel_case_types

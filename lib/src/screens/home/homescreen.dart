@@ -1,6 +1,6 @@
-import 'package:fitrack/src/screens/members/memberscreen.dart';
-import 'package:fitrack/src/widget/homeprofile.dart';
-import 'package:fitrack/src/widget/pagemenu.dart';
+import 'package:BuffedUp/src/screens/members/memberscreen.dart';
+import 'package:BuffedUp/src/widget/homeprofile.dart';
+import 'package:BuffedUp/src/widget/pagemenu.dart';
 import 'package:flutter/material.dart';
 
 // ignore: camel_case_types
@@ -12,7 +12,7 @@ class homescreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
-          title: const Text("Fitrack"),
+          title: const Text("BuffedUp"),
           centerTitle: true,
           elevation: 3,
         ),

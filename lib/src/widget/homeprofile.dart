@@ -1,7 +1,7 @@
 // ignore_for_file: camel_case_types
 
-import 'package:fitrack/const/Colors.dart';
-import 'package:fitrack/src/widget/text.dart';
+import 'package:BuffedUp/const/Colors.dart';
+import 'package:BuffedUp/src/widget/text.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable

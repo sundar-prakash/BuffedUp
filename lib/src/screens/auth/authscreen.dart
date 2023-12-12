@@ -1,5 +1,6 @@
-import 'package:fitrack/src/services/authService.dart';
-import 'package:fitrack/src/widget/text.dart';
+import 'package:BuffedUp/const/Captions.dart';
+import 'package:BuffedUp/src/services/authService.dart';
+import 'package:BuffedUp/src/widget/text.dart';
 import 'package:flutter/material.dart';
 
 class auth extends StatefulWidget {
@@ -21,7 +22,7 @@ class _authState extends State<auth> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const BigText("Welcome to FITRACK"),
+          const BigText("Welcome to $title"),
           const SmallText("Be Fit and Track everyting"),
           const SizedBox(
             height: 20,

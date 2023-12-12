@@ -1,4 +1,4 @@
-name: fitrack
+name: BuffedUp
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -75,14 +75,14 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  fonts:
-    - family: San Francisco
-      fonts:
-        - asset: asset/fonts/san/SFNSText-Bold.otf
-        - asset: asset/fonts/san/SFNSText-BoldItalic.otf
-        - asset: asset/fonts/san/SFNSText-Regular.otf
-        - asset: asset/fonts/san/SFNSText-RegularItalic.otf
-        - asset: asset/fonts/san/SFNSText-LightItalic.otf
+  # fonts:
+  #   - family: San Francisco
+  #     fonts:
+  #       - asset: asset/fonts/san/SFNSText-Bold.otf
+  #       - asset: asset/fonts/san/SFNSText-BoldItalic.otf
+  #       - asset: asset/fonts/san/SFNSText-Regular.otf
+  #       - asset: asset/fonts/san/SFNSText-RegularItalic.otf
+  #       - asset: asset/fonts/san/SFNSText-LightItalic.otf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
