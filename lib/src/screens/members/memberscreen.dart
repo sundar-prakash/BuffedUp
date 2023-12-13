@@ -1,7 +1,7 @@
 // ignore_for_file: camel_case_types
 
+import 'package:BuffedUp/const/DataTypes.dart';
 import 'package:BuffedUp/src/screens/members/newmemberscreen.dart';
-import 'package:BuffedUp/src/screens/members/viewmemberscreen.dart';
 import 'package:BuffedUp/src/widget/membertile.dart';
 import 'package:flutter/material.dart';
 
@@ -36,11 +36,9 @@ class _memberscreenState extends State<memberscreen> {
                     prefixIcon: Icon(Icons.search)),
               ),
               Column(
-                children: [
-                  membertile("sasuke", 45),
-                  membertile("naruto", 435),
-                  membertile("kakashi", 15),
-                ],
+                children: members
+                    .map((e) => membertile(e.name, e.reqisterNumber))
+                    .toList(),
               )
             ],
           ),

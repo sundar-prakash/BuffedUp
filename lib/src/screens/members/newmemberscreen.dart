@@ -1,3 +1,4 @@
+import 'package:BuffedUp/src/widget/memberform.dart';
 import 'package:flutter/material.dart';
 
 class newmemberscreen extends StatelessWidget {
@@ -10,7 +11,7 @@ class newmemberscreen extends StatelessWidget {
         title: Text("Add a Member"),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.cancel_outlined),
+          icon: Icon(Icons.close),
           onPressed: () => Navigator.pop(context),
         ),
         actions: [
@@ -19,6 +20,10 @@ class newmemberscreen extends StatelessWidget {
             onPressed: () => Navigator.pop(context),
           )
         ],
+      ),
+      body: Container(
+        margin: EdgeInsets.all(10),
+        child: MemberForm(),
       ),
     );
   }

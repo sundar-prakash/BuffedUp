@@ -1,6 +1,5 @@
 // ignore_for_file: camel_case_types
 
-import 'package:BuffedUp/const/Colors.dart';
 import 'package:BuffedUp/src/widget/text.dart';
 import 'package:flutter/material.dart';
 
