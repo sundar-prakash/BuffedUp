@@ -8,22 +8,16 @@ class newmemberscreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add a Member"),
+        title: const Text("Add a Member"),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.close),
+          icon: const Icon(Icons.close),
           onPressed: () => Navigator.pop(context),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.check),
-            onPressed: () => Navigator.pop(context),
-          )
-        ],
       ),
       body: Container(
-        margin: EdgeInsets.all(10),
-        child: MemberForm(),
+        margin: const EdgeInsets.all(10),
+        child: const MemberForm(),
       ),
     );
   }

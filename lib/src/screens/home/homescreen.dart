@@ -1,4 +1,7 @@
+import 'package:BuffedUp/const/DataTypes.dart';
 import 'package:BuffedUp/src/screens/members/memberscreen.dart';
+import 'package:BuffedUp/src/services/authService.dart';
+import 'package:BuffedUp/src/services/firestore/userdoc.dart';
 import 'package:BuffedUp/src/widget/homeprofile.dart';
 import 'package:BuffedUp/src/widget/pagemenu.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +14,11 @@ class homescreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+          leading: IconButton(
+              onPressed: () {
+                logout();
+              },
+              icon: const Icon(Icons.menu)),
           title: const Text("BuffedUp"),
           centerTitle: true,
           elevation: 3,

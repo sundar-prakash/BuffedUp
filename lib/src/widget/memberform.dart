@@ -1,6 +1,7 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
 import 'package:BuffedUp/const/DataTypes.dart';
+import 'package:BuffedUp/src/services/firestore/userdoc.dart';
 import 'package:BuffedUp/src/widget/decoratedtextinput.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -16,7 +17,7 @@ class _MemberFormState extends State<MemberForm> {
   @override
   Widget build(BuildContext context) {
     final _registerNumberController =
-        TextEditingController(text: widget.member?.reqisterNumber.toString());
+        TextEditingController(text: widget.member?.registerNumber.toString());
     final _nameController = TextEditingController(text: widget.member?.name);
     final _emailController = TextEditingController(text: widget.member?.email);
     final _phoneNumberController =
@@ -38,7 +39,7 @@ class _MemberFormState extends State<MemberForm> {
         children: [
           RoundedTextField(
             controller: _registerNumberController,
-            readOnly: true,
+            // readOnly: true,
             decoration: const InputDecoration(labelText: 'Register Number'),
           ),
           RoundedTextField(
@@ -71,7 +72,7 @@ class _MemberFormState extends State<MemberForm> {
               ),
               RoundedTextField(
                   controller: _paidOnController,
-                  readOnly: true, // User can't directly edit the date
+                  readOnly: true,
                   decoration: const InputDecoration(labelText: 'Paid On'),
                   onTap: () => datePicker(context, _paidOnController)),
               RoundedTextField(
@@ -80,7 +81,30 @@ class _MemberFormState extends State<MemberForm> {
                 decoration: const InputDecoration(labelText: 'Validity (Days)'),
               ),
             ],
-          )
+          ),
+          ElevatedButton(
+              onPressed: ()async {
+                GymMember newMember = GymMember(
+                    name: _nameController.text,
+                    joinDate: DateTime.parse(_joinDateController.text),
+                    registerNumber: int.parse(_registerNumberController.text),
+                    email: _emailController.text,
+                    // profilePicture: ,
+                    membershipType: MembershipType(
+                        amount: int.parse(_amountController.text),
+                        paidon: DateTime.parse(_paidOnController.text),
+                        validity: Duration(
+                            days: int.parse(_validityController.text))),
+                    phoneNumber: _phoneNumberController.text);
+                final res = await uploadMember(newMember);
+                ScaffoldMessenger.of(context).showSnackBar(
+           SnackBar(
+            content: Text( res?'Saved Successfully !':"An error occured"),
+          ),
+        );
+                Navigator.pop(context);
+              },
+              child: Text("Save"))
         ],
       ),
     );

@@ -1,19 +1,19 @@
 import 'package:BuffedUp/const/DataTypes.dart';
 import 'package:BuffedUp/src/screens/members/editmemberscreen.dart';
+import 'package:BuffedUp/src/services/firestore/userdoc.dart';
 import 'package:BuffedUp/src/widget/memberform.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class viewmemberscreen extends StatelessWidget {
-  int reg;
-  viewmemberscreen(this.reg, {super.key});
-  final member = members[0];
+  GymMember member;
+  viewmemberscreen(this.member, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("$reg"),
+          title: Text("${member.registerNumber}"),
         ),
         body: Card(
           elevation: 4,
@@ -46,7 +46,7 @@ class viewmemberscreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Registration Number: ${member.reqisterNumber}',
+                            'Registration Number: ${member.registerNumber}',
                             style: TextStyle(
                               color: Colors.grey[700],
                               fontSize: 16,
@@ -86,15 +86,25 @@ class viewmemberscreen extends StatelessWidget {
                       onPressed: () {
                         // Implement delete logic here
                       },
-                      child: const Row(
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.delete),
-                          SizedBox(width: 8),
-                          Text(
-                            'Delete',
-                            style: TextStyle(color: Colors.red),
-                          ),
+                          TextButton.icon(
+                            onPressed: () async {
+                              bool res =
+                                  await deleteMember(member.registerNumber);
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(res
+                                      ? 'Deleted Successfully !'
+                                      : "An error occured"),
+                                ),
+                              );
+                            },
+                            icon: Icon(Icons.delete),
+                            label: Text("Delete"),
+                          )
                         ],
                       ),
                     ),
@@ -105,7 +115,8 @@ class viewmemberscreen extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => editmemberscreen(reg)));
+                                  builder: (context) =>
+                                      editmemberscreen(member)));
                         },
                         child: const Row(
                           mainAxisSize: MainAxisSize.min,
