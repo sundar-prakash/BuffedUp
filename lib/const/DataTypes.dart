@@ -1,3 +1,5 @@
+
+
 class GymMember {
   final String name;
   final String? email;
@@ -37,11 +39,11 @@ class GymMember {
     return GymMember(
       name: data['name'] as String,
       email: data['email'] as String?,
-      joinDate: data['joinDate'].toDate(),
+      joinDate: DateTime.parse(data['joinDate'] as String),
       registerNumber: data['registerNumber'] ?? 0,
       membershipType: MembershipType(
         amount: data['membershipType']['amount'] as int,
-        paidon: data['membershipType']['paidon'].toDate(),
+        paidon: DateTime.parse(data['membershipType']['paidon'] as String),
         validity: Duration(days: data['membershipType']['validity'] as int),
       ),
       phoneNumber: data['phoneNumber'] as String,

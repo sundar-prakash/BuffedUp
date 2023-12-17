@@ -169,13 +169,16 @@ class _MemberFormState extends State<MemberForm> {
                           phoneNumber: _phoneNumberController.text);
 
                       final res = await uploadMember(newMember);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(res
-                              ? 'Saved Successfully !'
-                              : "An error occured"),
-                        ),
-                      );
+                      try {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(res
+                                ? 'Saved Successfully!'
+                                : 'An error occurred'),
+                          ),
+                        );
+                      } catch (e) {
+                      }
                       Navigator.pop(context);
                     }
                   },

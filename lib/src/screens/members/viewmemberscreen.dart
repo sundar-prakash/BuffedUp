@@ -2,6 +2,7 @@ import 'package:BuffedUp/const/DataTypes.dart';
 import 'package:BuffedUp/src/screens/members/editmemberscreen.dart';
 import 'package:BuffedUp/src/services/firestore/userdoc.dart';
 import 'package:BuffedUp/src/widget/memberform.dart';
+import 'package:BuffedUp/src/widget/membertile.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -11,6 +12,8 @@ class viewmemberscreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isNotActive = isMembershipExpired(
+        member.membershipType.paidon, member.membershipType.validity);
     return Scaffold(
         appBar: AppBar(
           title: Text("${member.registerNumber}"),
@@ -81,34 +84,32 @@ class viewmemberscreen extends StatelessWidget {
                     'Paid On: ${yearFormat(member.membershipType.paidon)}',
                   ),
                 ),
+                ListTile(
+                  leading: Icon(
+                    isNotActive ? Icons.close : Icons.check,
+                    color: isNotActive ? Colors.red : Colors.green,
+                  ),
+                  title: Text(
+                    isNotActive ? "Expired" : "Active",
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    TextButton(
-                      onPressed: () {
-                        // Implement delete logic here
+                    TextButton.icon(
+                      onPressed: () async {
+                        bool res = await deleteMember(member.registerNumber);
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(res
+                                ? 'Deleted Successfully !'
+                                : "An error occured"),
+                          ),
+                        );
                       },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextButton.icon(
-                            onPressed: () async {
-                              bool res =
-                                  await deleteMember(member.registerNumber);
-                              Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(res
-                                      ? 'Deleted Successfully !'
-                                      : "An error occured"),
-                                ),
-                              );
-                            },
-                            icon: Icon(Icons.delete),
-                            label: Text("Delete"),
-                          )
-                        ],
-                      ),
+                      icon: Icon(Icons.delete),
+                      label: Text("Delete"),
                     ),
                     const SizedBox(width: 8),
                     ElevatedButton.icon(

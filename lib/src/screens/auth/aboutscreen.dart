@@ -19,7 +19,6 @@ class _aboutscreenState extends State<aboutscreen> {
   final _nameController = TextEditingController();
   final _gymname = TextEditingController();
   final _bio = TextEditingController();
-  // final _phone = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
   XFile? _imageFile;
@@ -75,31 +74,14 @@ class _aboutscreenState extends State<aboutscreen> {
                   return null; // Return null for no error
                 },
               ),
-              /*
-              RoundedTextField(
-                controller: _phone,
-                keyboardType: TextInputType.phone,
-                decoration: const InputDecoration(labelText: 'Phone Number'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Phone number is required';
-                  } else if (value.length > 20) {
-                    return 'Phone number should not exceed 20 characters';
-                  } else if (value.length < 10) {
-                    return 'Phone number must be atleast 10 characters';
-                  } else if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                    return 'Enter a valid phone number';
-                  }
-                  return null;
-                },
-              ),
-              */
+      
+            
               RoundedTextField(
                 controller: _gymname,
                 decoration: const InputDecoration(labelText: 'Your Gym Name'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Do you have gym ?';
+                    return 'Did you name your gym?';
                   } else if (RegExp(r'[0-9!@#%^&*(),.?":{}|<>]')
                       .hasMatch(value)) {
                     return 'Gym Name should not contain special characters or numbers';

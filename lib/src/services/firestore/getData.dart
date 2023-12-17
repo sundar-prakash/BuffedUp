@@ -17,7 +17,6 @@ Future<List<GymMember>> fetchMembers() async {
       return [];
     }
   } else {
-    // User document not found
     throw Exception('User document not found');
   }
 }

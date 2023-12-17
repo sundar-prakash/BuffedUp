@@ -1,7 +1,6 @@
 import 'package:BuffedUp/const/Captions.dart';
 import 'package:BuffedUp/const/DataTypes.dart';
 import 'package:BuffedUp/src/screens/members/memberscreen.dart';
-import 'package:BuffedUp/src/services/authService.dart';
 import 'package:BuffedUp/src/widget/homeprofile.dart';
 import 'package:BuffedUp/src/widget/pagemenu.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,14 +16,7 @@ class homescreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-              onPressed: () {
-                logout();
-              },
-              tooltip: "logout",
-              icon: const Icon(Icons.logout)),
           title: const Text(title),
-          centerTitle: true,
           elevation: 3,
         ),
         body: StreamBuilder(
@@ -41,7 +33,7 @@ class homescreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      homeprofile(user.name, avatar: user.avatar),
+                      homeprofile(user),
                       pagemenu(
                         "Members",
                         Icons.group,
@@ -73,7 +65,10 @@ class homescreen extends StatelessWidget {
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
-                return CupertinoActivityIndicator();
+                return const Center(
+                    child: CupertinoActivityIndicator(
+                  radius: 30,
+                ));
               }
             }));
   }

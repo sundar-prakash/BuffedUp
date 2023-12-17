@@ -25,16 +25,17 @@ class _memberscreenState extends State<memberscreen> {
     refreshMemberscreen();
   }
 
+  bool _isMemberEmpty = true;
+
   void refreshMemberscreen() async {
     fetchMembers().then((members) {
       setState(() {
+        if (members.isNotEmpty) _isMemberEmpty = false;
         allMembers = members;
         displayedMembers = members;
       });
     });
   }
-
-  bool isMemberEmpty = false;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +67,7 @@ class _memberscreenState extends State<memberscreen> {
 
                   setState(() {
                     if (lowerCaseQuery.isNotEmpty &&
-                        displayedMembers.isNotEmpty) isMemberEmpty = true;
+                        displayedMembers.isNotEmpty) _isMemberEmpty = true;
                     if (lowerCaseQuery.isEmpty) {
                       refreshMemberscreen();
                     } else {
@@ -86,7 +87,7 @@ class _memberscreenState extends State<memberscreen> {
               if (displayedMembers.isEmpty)
                 Container(
                   margin: const EdgeInsets.all(20),
-                  child: isMemberEmpty
+                  child: _isMemberEmpty
                       ? const Text("No members found :(")
                       : const CupertinoActivityIndicator(
                           radius: 20,
