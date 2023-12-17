@@ -1,3 +1,4 @@
+import 'package:BuffedUp/src/screens/auth/aboutscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:BuffedUp/src/screens/auth/authscreen.dart';
 import 'package:BuffedUp/src/screens/home/homescreen.dart';
@@ -17,7 +18,12 @@ class _mainscreenState extends State<mainscreen> {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return const homescreen();
+          if (snapshot.data?.displayName != null &&
+              snapshot.data?.photoURL != null) {
+            return const homescreen();
+          } else {
+            return const aboutscreen();
+          }
         } else {
           return const auth();
         }

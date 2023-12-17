@@ -1,6 +1,7 @@
 import 'package:BuffedUp/const/Captions.dart';
 import 'package:BuffedUp/src/services/authService.dart';
 import 'package:BuffedUp/src/widget/text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class auth extends StatefulWidget {
@@ -13,11 +14,12 @@ class _authState extends State<auth> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   String message = "";
+  bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-      margin: EdgeInsets.symmetric(horizontal: 30),
+      margin: const EdgeInsets.symmetric(horizontal: 30),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -38,27 +40,48 @@ class _authState extends State<auth> {
           const SizedBox(
             height: 20,
           ),
+          if (_isLoading) const CupertinoActivityIndicator(),
+          const SizedBox(
+            height: 20,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
-                onPressed: () async {
-                  String result = await register(
-                      emailController.text, passwordController.text);
-                  setState(() {
-                    message = result as String;
-                  });
-                },
+                onPressed: _isLoading
+                    ? null
+                    : () async {
+                        if (mounted) {
+                          setState(() {
+                            _isLoading = true;
+                          });
+                          String result = await register(
+                              emailController.text, passwordController.text);
+                          setState(() {
+                            message = result;
+                            _isLoading = false;
+                          });
+                        }
+                      },
                 child: const Text("Register"),
               ),
               TextButton(
-                onPressed: () async {
-                  String result = await login(
-                      emailController.text, passwordController.text);
-                  setState(() {
-                    message = result as String;
-                  });
-                },
+                onPressed: _isLoading
+                    ? null
+                    : () async {
+                        if (mounted) {
+                          setState(() {
+                            _isLoading = true;
+                          });
+                          String result = await login(
+                              emailController.text, passwordController.text);
+
+                          setState(() {
+                            message = result;
+                            _isLoading = false;
+                          });
+                        }
+                      },
                 child: const Text("Login"),
               ),
             ],

@@ -6,7 +6,7 @@ Future<String> register(email, password) async {
     if (email == "" || password == "") return "Please Fill All Fields";
     UserCredential newUser = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
-    createUserDocument(newUser.user!.uid);
+    createUserDocument(newUser.user!.uid,email);
     return ('User registered successfully!');
   } on FirebaseAuthException catch (e) {
     return (e.message ?? "Something Went Wrong");
@@ -25,6 +25,14 @@ Future<String> login(email, password) async {
   }
 }
 
+Future<void> updateProfile({
+  required String displayName,
+  required String photoUrl,
+}) async {
+  await FirebaseAuth.instance.currentUser!.updateDisplayName(displayName);
+  await FirebaseAuth.instance.currentUser!.updatePhotoURL(photoUrl);
+  // await FirebaseAuth.instance.currentUser!.updatePhoneNumber(photoUrl);
+}
 void logout() async {
   await FirebaseAuth.instance.signOut();
 }

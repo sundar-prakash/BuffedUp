@@ -60,7 +60,9 @@ class viewmemberscreen extends StatelessWidget {
                 const Divider(),
                 ListTile(
                   leading: const Icon(Icons.email),
-                  title: Text(member.email ?? 'No Email'),
+                  title: Text(member.email != ""
+                      ? member.email ?? 'No Email'
+                      : 'No Email'),
                 ),
                 ListTile(
                   leading: const Icon(Icons.phone),
@@ -109,23 +111,18 @@ class viewmemberscreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      editmemberscreen(member)));
-                        },
-                        child: const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.edit),
-                            SizedBox(width: 8),
-                            Text('Edit'),
-                          ],
-                        )),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    editmemberscreen(member)));
+                      },
+                      label: const Text('Edit'),
+                      icon: Icon(Icons.edit),
+                    ),
                   ],
                 ),
               ],

@@ -6,9 +6,20 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class homeprofile extends StatelessWidget {
   String name;
-  String email;
   String? avatar;
-  homeprofile(this.name, this.email, {this.avatar, super.key});
+  homeprofile(this.name, {this.avatar, super.key});
+  String getGreeting() {
+    DateTime now = DateTime.now();
+    int hour = now.hour;
+
+    if (hour < 12) {
+      return 'Good morning!';
+    } else if (hour < 18) {
+      return 'Good afternoon!';
+    } else {
+      return 'Good evening!';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +43,14 @@ class homeprofile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 BigText("Hello, $name"),
-                MediumText("Good Evening"),
+                MediumText(getGreeting()),
               ],
             ),
             CircleAvatar(
               radius: 50,
-              backgroundColor: Color.fromARGB(255, 212, 166, 155),
-              child: avatar != null
-                  ? Image.network(avatar!)
-                  : Text(name.substring(0, 1)),
+              backgroundColor: Color.fromARGB(255, 179, 123, 231),
+              backgroundImage: avatar != null ? NetworkImage(avatar!) : null,
+              child: Text(name.substring(0, 1)),
             ),
           ],
         ));

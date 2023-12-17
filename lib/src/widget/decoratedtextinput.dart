@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class RoundedTextField extends StatelessWidget {
@@ -11,6 +10,7 @@ class RoundedTextField extends StatelessWidget {
   final FormFieldValidator<String>? validator;
   final bool readOnly;
   final VoidCallback? onTap;
+  final bool isMultiline;
 
   RoundedTextField({
     Key? key,
@@ -18,6 +18,7 @@ class RoundedTextField extends StatelessWidget {
     this.focusNode,
     this.readOnly = false,
     this.onTap,
+    this.isMultiline = false,
     this.decoration = const InputDecoration(),
     this.keyboardType = TextInputType.text,
     this.textInputAction = TextInputAction.done,
@@ -34,13 +35,13 @@ class RoundedTextField extends StatelessWidget {
           focusNode: focusNode,
           readOnly: readOnly,
           onTap: onTap,
+          maxLines: isMultiline ? null : 1,
           decoration: decoration.copyWith(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),
           ),
-          keyboardType: keyboardType,
-          textInputAction: textInputAction,
+          keyboardType: isMultiline ? TextInputType.multiline : keyboardType,
           onChanged: onChanged,
           validator: validator,
         ));

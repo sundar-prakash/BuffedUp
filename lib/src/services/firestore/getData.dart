@@ -12,7 +12,7 @@ Future<List<GymMember>> fetchMembers() async {
   if (docSnapshot.exists) {
     final memberData = docSnapshot.get('members') as List?;
     if (memberData != null) {
-      return memberData.map((memberMap) => GymMember.fromJson(memberMap)).toList();
+      return memberData.map((memberMap) => GymMember.fromMap(memberMap)).toList();
     } else {
       return [];
     }
