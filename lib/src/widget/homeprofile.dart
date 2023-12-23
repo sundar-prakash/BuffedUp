@@ -1,7 +1,8 @@
 // ignore_for_file: camel_case_types
 
-import 'package:BuffedUp/const/DataTypes.dart';
+import 'package:BuffedUp/const/DataTypes/UserProfile.dart';
 import 'package:BuffedUp/src/screens/profile/profile.dart';
+import 'package:BuffedUp/src/widget/imageviewer.dart';
 import 'package:BuffedUp/src/widget/text.dart';
 import 'package:flutter/material.dart';
 
@@ -57,11 +58,19 @@ class homeprofile extends StatelessWidget {
                     ),
                   ],
                 ),
-                CircleAvatar(
-                  radius: 50,
-                  backgroundColor: Color.fromARGB(255, 179, 123, 231),
-                  backgroundImage: NetworkImage(user.avatar),
-                ),
+                GestureDetector(
+                    onTap: () async {
+                      await showDialog(
+                          context: context,
+                          builder: (_) => ImageDialog(user.avatar));
+                    },
+                    child: Hero(
+                      tag: 'avatarTag',
+                      child: AvatarContainer(
+                        imageUrl: user.avatar,
+                        size: 100,
+                      ),
+                    )),
               ],
             )));
   }

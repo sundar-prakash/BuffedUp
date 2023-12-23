@@ -1,5 +1,6 @@
 import 'package:BuffedUp/const/Captions.dart';
-import 'package:BuffedUp/const/DataTypes.dart';
+import 'package:BuffedUp/const/DataTypes/UserProfile.dart';
+import 'package:BuffedUp/src/screens/expenses/expensescreen.dart';
 import 'package:BuffedUp/src/screens/members/memberscreen.dart';
 import 'package:BuffedUp/src/widget/homeprofile.dart';
 import 'package:BuffedUp/src/widget/pagemenu.dart';

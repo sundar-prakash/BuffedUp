@@ -1,0 +1,55 @@
+class UserProfile {
+  final String uid;
+  final String email;
+  String name;
+  String bio;
+  String phone;
+  String avatar;
+  String gymName;
+  List<dynamic> members;
+  List<dynamic> equipments;
+  List<dynamic> expenses;
+
+  UserProfile({
+    required this.uid,
+    required this.email,
+    this.name = '',
+    this.bio = '',
+    this.phone = '',
+    this.avatar = '',
+    this.gymName = '',
+    this.members = const [],
+    this.equipments = const [],
+    this.expenses = const [],
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'uid': uid,
+      'email': email,
+      'name': name,
+      'bio': bio,
+      'phone': phone,
+      'avatar': avatar,
+      'gymname': gymName,
+      'members': members,
+      'equipments': equipments,
+      'expenses': expenses,
+    };
+  }
+
+  factory UserProfile.fromMap(Map<String, dynamic> map) {
+    return UserProfile(
+      uid: map['uid'] as String,
+      email: map['email'] as String,
+      name: map['name'] as String,
+      bio: map['bio'] as String,
+      phone: map['phone'] != null ? map['phone'] as String : '',
+      avatar: map['avatar'] != null ? map['avatar'] as String : '',
+      gymName: map['gymname'] != null ? map['gymname'] as String : '',
+      members: (map['members'] as List<dynamic>?)?.toList() ?? [],
+      equipments: (map['equipments'] as List<dynamic>?)?.toList() ?? [],
+      expenses: (map['expenses'] as List<dynamic>?)?.toList() ?? [],
+    );
+  }
+}

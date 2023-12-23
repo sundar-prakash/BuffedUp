@@ -1,4 +1,4 @@
-import 'package:BuffedUp/const/DataTypes.dart';
+import 'package:BuffedUp/const/DataTypes/GymMember.dart';
 import 'package:BuffedUp/src/widget/memberform.dart';
 import 'package:flutter/material.dart';
 

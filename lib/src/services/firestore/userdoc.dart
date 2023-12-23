@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:BuffedUp/const/DataTypes.dart';
+import 'package:BuffedUp/const/DataTypes/GymMember.dart';
+import 'package:BuffedUp/const/DataTypes/UserProfile.dart';
 import 'package:BuffedUp/src/services/authService.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

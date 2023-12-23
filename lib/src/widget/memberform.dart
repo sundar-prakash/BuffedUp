@@ -1,6 +1,6 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
-import 'package:BuffedUp/const/DataTypes.dart';
+import 'package:BuffedUp/const/DataTypes/GymMember.dart';
 import 'package:BuffedUp/src/services/firestore/userdoc.dart';
 import 'package:BuffedUp/src/widget/decoratedtextinput.dart';
 import 'package:flutter/material.dart';
