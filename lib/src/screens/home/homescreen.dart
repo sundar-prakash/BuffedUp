@@ -48,7 +48,6 @@ class homescreen extends StatelessWidget {
                           Icons.attach_money,
                           "00",
                           subtext: "Poor guy:(",
-                          navigator: FirestoreImportScreen(),
                         ),
                         pagemenu(
                           "Trainers",

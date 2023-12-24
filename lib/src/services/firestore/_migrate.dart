@@ -79,7 +79,7 @@ class FirestoreImportScreen extends StatelessWidget {
       ),
       body: Center(
         child: ElevatedButton(
-          onPressed: _importDataToFirestore,
+          onPressed: null,
           child: Text('Import Data to Firestore'),
         ),
       ),

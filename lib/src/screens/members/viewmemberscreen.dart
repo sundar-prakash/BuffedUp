@@ -86,6 +86,12 @@ class viewmemberscreen extends StatelessWidget {
                   ),
                 ),
                 ListTile(
+                  leading: const Icon(
+                    Icons.dashboard,
+                  ),
+                  title: Text("${member.membershipType.category}"),
+                ),
+                ListTile(
                   leading: Icon(
                     isNotActive ? Icons.close : Icons.check,
                     color: isNotActive ? Colors.red : Colors.green,
@@ -110,8 +116,8 @@ class viewmemberscreen extends StatelessWidget {
                           ),
                         );
                       },
-                      icon: Icon(Icons.delete),
-                      label: Text("Delete"),
+                      icon: const Icon(Icons.delete),
+                      label: const Text("Delete"),
                     ),
                     const SizedBox(width: 8),
                     ElevatedButton.icon(
@@ -124,7 +130,7 @@ class viewmemberscreen extends StatelessWidget {
                                     editmemberscreen(gymownerid, member)));
                       },
                       label: const Text('Edit'),
-                      icon: Icon(Icons.edit),
+                      icon: const Icon(Icons.edit),
                     ),
                   ],
                 ),

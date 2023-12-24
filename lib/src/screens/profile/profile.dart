@@ -125,7 +125,7 @@ class _profilescreenState extends State<profilescreen> {
                                 ),
                                 if (_isLoading)
                                   SearchingIndicator(
-                                    radius: 1,
+                                    radius: 5,
                                   ),
                                 const SizedBox(
                                   height: 20,
