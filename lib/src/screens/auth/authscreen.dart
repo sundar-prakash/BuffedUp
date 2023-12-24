@@ -1,7 +1,7 @@
 import 'package:BuffedUp/const/Captions.dart';
 import 'package:BuffedUp/src/services/authService.dart';
+import 'package:BuffedUp/src/widget/searchindicator.dart';
 import 'package:BuffedUp/src/widget/text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class auth extends StatefulWidget {
@@ -40,7 +40,7 @@ class _authState extends State<auth> {
           const SizedBox(
             height: 20,
           ),
-          if (_isLoading) const CupertinoActivityIndicator(),
+          if (_isLoading) SearchingIndicator(radius: 1,),
           const SizedBox(
             height: 20,
           ),
@@ -55,12 +55,21 @@ class _authState extends State<auth> {
                           setState(() {
                             _isLoading = true;
                           });
-                          String result = await register(
-                              emailController.text, passwordController.text);
-                          setState(() {
-                            message = result;
-                            _isLoading = false;
-                          });
+
+                          // Use a local variable to check if the widget is mounted
+                          bool isMounted = mounted;
+                          if (isMounted) {
+                            String result = await register(
+                                emailController.text, passwordController.text);
+
+                            // Check mounted again before calling setState()
+                            if (mounted) {
+                              setState(() {
+                                message = result;
+                                _isLoading = false;
+                              });
+                            }
+                          }
                         }
                       },
                 child: const Text("Register"),
@@ -73,13 +82,21 @@ class _authState extends State<auth> {
                           setState(() {
                             _isLoading = true;
                           });
-                          String result = await login(
-                              emailController.text, passwordController.text);
 
-                          setState(() {
-                            message = result;
-                            _isLoading = false;
-                          });
+                          // Use a local variable to check if the widget is mounted
+                          bool isMounted = mounted;
+                          if (isMounted) {
+                            String result = await login(
+                                emailController.text, passwordController.text);
+
+                            // Check mounted again before calling setState()
+                            if (mounted) {
+                              setState(() {
+                                message = result;
+                                _isLoading = false;
+                              });
+                            }
+                          }
                         }
                       },
                 child: const Text("Login"),

@@ -18,11 +18,11 @@ class _mainscreenState extends State<mainscreen> {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data?.displayName != null &&
-              snapshot.data?.photoURL != null) {
-            return const homescreen();
-          } else {
+          if (snapshot.data?.displayName == null &&
+              snapshot.data?.photoURL == null) {
             return const aboutscreen();
+          } else {
+            return const homescreen();
           }
         } else {
           return const auth();

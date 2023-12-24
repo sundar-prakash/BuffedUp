@@ -64,13 +64,12 @@ class homeprofile extends StatelessWidget {
                           context: context,
                           builder: (_) => ImageDialog(user.avatar));
                     },
-                    child: Hero(
-                      tag: 'avatarTag',
-                      child: AvatarContainer(
-                        imageUrl: user.avatar,
-                        size: 100,
+                    child: 
+                     CircleAvatar(
+                        backgroundImage: NetworkImage(user.avatar),
+                        radius: 50,
                       ),
-                    )),
+                  ),
               ],
             )));
   }

@@ -1,10 +1,11 @@
 import 'dart:io';
-import 'package:BuffedUp/src/services/firestore/userdoc.dart';
+import 'package:BuffedUp/src/services/firestore/ownerdoc.dart';
 import 'package:BuffedUp/src/widget/decoratedtextinput.dart';
 import 'package:BuffedUp/src/widget/imagepicker.dart';
+import 'package:BuffedUp/src/widget/searchindicator.dart';
 import 'package:BuffedUp/src/widget/text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -57,7 +58,9 @@ class _aboutscreenState extends State<aboutscreen> {
                   icon: CircleAvatar(
                     radius: 120,
                     backgroundImage: _imageFile != null
-                        ? FileImage(File(_imageFile!.path))
+                        ? kIsWeb
+                            ? Image.network(_imageFile!.path).image
+                            : Image.file(File(_imageFile!.path)).image
                         : null,
                     child: _imageFile == null ? Icon(Icons.add) : null,
                   )),
@@ -74,8 +77,6 @@ class _aboutscreenState extends State<aboutscreen> {
                   return null; // Return null for no error
                 },
               ),
-      
-            
               RoundedTextField(
                 controller: _gymname,
                 decoration: const InputDecoration(labelText: 'Your Gym Name'),
@@ -103,7 +104,10 @@ class _aboutscreenState extends State<aboutscreen> {
               const SizedBox(
                 height: 20,
               ),
-              if (_isLoading) const CupertinoActivityIndicator(),
+              if (_isLoading)
+                SearchingIndicator(
+                  radius: 1,
+                ),
               const SizedBox(
                 height: 20,
               ),

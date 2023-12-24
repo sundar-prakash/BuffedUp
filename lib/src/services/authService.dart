@@ -1,4 +1,4 @@
-import 'package:BuffedUp/src/services/firestore/userdoc.dart';
+import 'package:BuffedUp/src/services/firestore/ownerdoc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 Future<String> register(email, password) async {

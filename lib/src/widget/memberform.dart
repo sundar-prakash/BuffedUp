@@ -1,14 +1,15 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
 import 'package:BuffedUp/const/DataTypes/GymMember.dart';
-import 'package:BuffedUp/src/services/firestore/userdoc.dart';
+import 'package:BuffedUp/src/services/firestore/memberdoc.dart';
 import 'package:BuffedUp/src/widget/decoratedtextinput.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class MemberForm extends StatefulWidget {
   final GymMember? member;
-  const MemberForm({super.key, this.member});
+  final String gymownerid;
+   MemberForm( this.gymownerid,{super.key, this.member});
   @override
   State<MemberForm> createState() => _MemberFormState();
 }
@@ -24,6 +25,8 @@ class _MemberFormState extends State<MemberForm> {
         TextEditingController(text: widget.member?.phoneNumber);
     final _joinDateController = TextEditingController(
         text: widget.member != null ? yearFormat(widget.member!.joinDate) : "");
+        final _categoryController = TextEditingController(
+        text: widget.member != null ? widget.member?.membershipType.category : "");
     final _amountController = TextEditingController(
         text: widget.member?.membershipType.amount.toString());
     final _paidOnController = TextEditingController(
@@ -32,6 +35,7 @@ class _MemberFormState extends State<MemberForm> {
             : "");
     final _validityController = TextEditingController(
         text: widget.member?.membershipType.validity.inDays.toString());
+
     final _formKey = GlobalKey<FormState>();
 
     return Form(
@@ -101,7 +105,6 @@ class _MemberFormState extends State<MemberForm> {
                   readOnly: true, // User can't directly edit the date
                   decoration: const InputDecoration(labelText: 'Date'),
                   validator: (value) {
-                    print(value);
                     if (value != null && value.isEmpty) {
                       return 'Join Date should not be empty';
                     }
@@ -128,13 +131,26 @@ class _MemberFormState extends State<MemberForm> {
                       readOnly: true,
                       decoration: const InputDecoration(labelText: 'Paid On'),
                       validator: (value) {
-                        print(value);
                         if (value != null && value.isEmpty) {
                           return 'Paid On should not be empty';
                         }
                         return null;
                       },
                       onTap: () => datePicker(context, _paidOnController)),
+                      RoundedTextField(
+                      controller: _categoryController,
+                      decoration: const InputDecoration(labelText: 'Category'),
+                      validator: (value) {
+                       if (value != null && value.isEmpty) {
+      return 'Category should not be empty';
+    } else if (value != null && value.length > 50) {
+      return 'Category should not exceed 50 characters';
+    } else if (value != null && !RegExp(r'^[a-zA-Z0-9 ]*$').hasMatch(value)) {
+      return 'Category can only contain letters and numbers';
+    }
+    return null;
+  },
+                      ),
                   RoundedTextField(
                     controller: _validityController,
                     keyboardType: TextInputType.number,
@@ -156,6 +172,7 @@ class _MemberFormState extends State<MemberForm> {
                     if (_formKey.currentState!.validate()) {
                       GymMember newMember = GymMember(
                           name: _nameController.text,
+                          gymownerid: widget.gymownerid,
                           joinDate: DateTime.parse(_joinDateController.text),
                           registerNumber:
                               int.parse(_registerNumberController.text),
@@ -168,9 +185,10 @@ class _MemberFormState extends State<MemberForm> {
                                   days: int.parse(_validityController.text))),
                           phoneNumber: _phoneNumberController.text);
 
-                      final res = await uploadMember(newMember);
+                      final res = await createMemberDocument(newMember);
+                      final scaffoldContext = context;
                       try {
-                        ScaffoldMessenger.of(context).showSnackBar(
+                        ScaffoldMessenger.of(scaffoldContext).showSnackBar(
                           SnackBar(
                             content: Text(res
                                 ? 'Saved Successfully!'
@@ -182,7 +200,7 @@ class _MemberFormState extends State<MemberForm> {
                       Navigator.pop(context);
                     }
                   },
-                  child: Text("Save"))
+                  child: const Text("Save"))
             ],
           ),
         ));

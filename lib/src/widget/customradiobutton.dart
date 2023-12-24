@@ -16,25 +16,26 @@ class CustomRadioButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(
-      onPressed: () {
-        onChanged(value);
-      },
-      style: OutlinedButton.styleFrom(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        side: BorderSide(
-          color: (groupValue == value) ? Colors.green : Colors.black,
-        ),
-      ),
-      child: Text(
-        text,
-        style: TextStyle(
-          color: (groupValue == value) ? Colors.green : Colors.black,
-        ),
-      ),
-    );
+    return Container(
+        margin: EdgeInsets.symmetric(horizontal: 10),
+        child: OutlinedButton(
+          onPressed: () {
+            onChanged(value);
+          },
+          style: OutlinedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            side: BorderSide(
+              color: (groupValue == value) ? Colors.green : Colors.black,
+            ),
+          ),
+          child: Text(
+            text,
+            style: TextStyle(
+              color: (groupValue == value) ? Colors.green : Colors.black,
+            ),
+          ),
+        ));
   }
 }
-

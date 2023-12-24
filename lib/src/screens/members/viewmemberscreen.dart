@@ -1,14 +1,15 @@
 import 'package:BuffedUp/const/DataTypes/GymMember.dart';
 import 'package:BuffedUp/src/screens/members/editmemberscreen.dart';
-import 'package:BuffedUp/src/services/firestore/userdoc.dart';
+import 'package:BuffedUp/src/services/firestore/memberdoc.dart';
 import 'package:BuffedUp/src/widget/memberform.dart';
 import 'package:BuffedUp/src/widget/membertile.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class viewmemberscreen extends StatelessWidget {
+  String gymownerid;
   GymMember member;
-  viewmemberscreen(this.member, {super.key});
+  viewmemberscreen(this.gymownerid, this.member, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class viewmemberscreen extends StatelessWidget {
                 Row(
                   children: [
                     CircleAvatar(
-                      backgroundImage: member.profilePicture != null
+                      backgroundImage: member.profilePicture != ""
                           ? NetworkImage(member.profilePicture!)
                           : null,
                       radius: 40,
@@ -98,7 +99,8 @@ class viewmemberscreen extends StatelessWidget {
                   children: [
                     TextButton.icon(
                       onPressed: () async {
-                        bool res = await deleteMember(member.registerNumber);
+                        bool res = await deleteMemberDocument(
+                            member.gymownerid, member.registerNumber);
                         Navigator.pop(context);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -119,7 +121,7 @@ class viewmemberscreen extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    editmemberscreen(member)));
+                                    editmemberscreen(gymownerid, member)));
                       },
                       label: const Text('Edit'),
                       icon: Icon(Icons.edit),

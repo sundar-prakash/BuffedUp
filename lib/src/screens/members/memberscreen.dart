@@ -1,10 +1,12 @@
 import 'package:BuffedUp/const/DataTypes/GymMember.dart';
+import 'package:BuffedUp/const/DataTypes/UserProfile.dart';
 import 'package:BuffedUp/src/screens/members/newmemberscreen.dart';
-import 'package:BuffedUp/src/services/firestore/getData.dart';
+import 'package:BuffedUp/src/services/firestore/ownerdoc.dart';
 import 'package:BuffedUp/src/widget/customradiobutton.dart';
 import 'package:BuffedUp/src/widget/membertile.dart';
-import 'package:BuffedUp/src/widget/text.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:BuffedUp/src/widget/searchindicator.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_pagination/firebase_pagination.dart';
 import 'package:flutter/material.dart';
 
 class memberscreen extends StatefulWidget {
@@ -15,127 +17,106 @@ class memberscreen extends StatefulWidget {
 }
 
 class _memberscreenState extends State<memberscreen> {
-  late List<GymMember> allMembers = [];
-  List<GymMember> displayedMembers = [];
   final TextEditingController _searchController = TextEditingController();
+  late UserProfile user;
   bool _isLoading = true;
-  bool _isMemberEmpty = true;
-  int _currentPage = 0;
-  int _pageSize = 10;
+  bool _isSearching = false;
   int _currentFilter = 0;
-  late int _previousFilter = 0;
+  late Query memberQuery;
 
   @override
   void initState() {
     super.initState();
-    refreshMemberscreen();
+    fetchInitialData();
   }
 
-  List<GymMember> getExpiredMembers() {
-    return allMembers.where((member) {
-      return isMembershipExpired(
-          member.membershipType.paidon, member.membershipType.validity);
-    }).toList();
-  }
-
-  List<GymMember> getActiveMembers() {
-    return allMembers.where((member) {
-      return !isMembershipExpired(
-          member.membershipType.paidon, member.membershipType.validity);
-    }).toList();
-  }
-
-  List<GymMember> sortMembers() {
-    return allMembers
-      ..sort((a, b) => a.registerNumber.compareTo(b.registerNumber));
-  }
-
-  void refreshMemberscreen() async {
-    setState(() => _isLoading = true);
-
-    await fetchAllMembers().then((members) {
-      setState(() {
-        _isLoading = false;
-        if (members.isNotEmpty) _isMemberEmpty = false;
-        allMembers = members;
-        displayedMembers = _loadNextPage();
-      });
+  Future<void> fetchInitialData() async {
+    user = await fetchOwner();
+    setState(() {
+      memberQuery = FirebaseFirestore.instance
+          .collection('members')
+          .where('gymownerid', isEqualTo: user.uid)
+          .orderBy('registerNumber');
+      _isLoading = false;
     });
   }
 
-  List<GymMember> _loadNextPage() {
-    int endIndex = (_currentPage + 1) * _pageSize;
-    if (endIndex > allMembers.length) {
-      endIndex = allMembers.length;
-    }
-    return allMembers.sublist(0, endIndex);
-  }
-
-  void loadMoreMembers() async {
-    await Future.delayed(Duration(milliseconds: 500));
+  Future<void> fetchActiveMembers() async {
+    memberQuery = FirebaseFirestore.instance
+        .collection('members')
+        .where('gymownerid', isEqualTo: user.uid)
+        .where('expiryDate', isGreaterThan: DateTime.now())
+        .orderBy('registerNumber');
     setState(() {
-      _currentPage++;
-      displayedMembers.addAll(_loadNextPage());
+      _isLoading = true;
+    });
+
+    await Future.delayed(const Duration(seconds: 2)); // Simulating delay
+    setState(() {
+      _isLoading = false;
     });
   }
 
-  void searchMembers(String query) {
-    final String lowerCaseQuery = query.toLowerCase();
-
+  Future<void> fetchExpiredMembers() async {
+    memberQuery = FirebaseFirestore.instance
+        .collection('members')
+        .where('gymownerid', isEqualTo: user.uid)
+        .where('expiryDate', isLessThan: DateTime.now())
+        .orderBy('registerNumber');
     setState(() {
-      if (lowerCaseQuery.isEmpty) {
-        refreshMemberscreen();
+      _isLoading = true;
+    });
+
+    await Future.delayed(const Duration(seconds: 2)); // Simulating delay
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  Future<void> searchMembers(String query) async {
+    setState(() {
+      _isSearching = true;
+      int? regno = int.tryParse(query);
+      if (query != "" && regno != null) {
+        memberQuery = FirebaseFirestore.instance
+            .collection('members')
+            .where('gymownerid', isEqualTo: user.uid)
+            .where('registerNumber', isGreaterThanOrEqualTo: regno)
+            .orderBy('registerNumber');
       } else {
-        displayedMembers = allMembers
-            .where(
-                (member) => member.name.toLowerCase().contains(lowerCaseQuery))
-            .toList();
+        memberQuery = FirebaseFirestore.instance
+            .collection('members')
+            .where('gymownerid', isEqualTo: user.uid)
+            .orderBy('registerNumber');
       }
+    });
+    await Future.delayed(const Duration(seconds: 1));
+    setState(() {
+      _isSearching = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 2,
-        title: const Text("Members"),
-        actions: [
-          IconButton(
-            onPressed: () => refreshMemberscreen(),
-            icon: const Icon(Icons.refresh),
-          ),
-          IconButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => newmemberscreen()),
+        appBar: AppBar(
+          elevation: 2,
+          title: const Text("Members"),
+          actions: [
+            IconButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => newmemberscreen(user.uid)),
+              ),
+              icon: const Icon(Icons.add_circle_outline),
             ),
-            icon: const Icon(Icons.add_circle_outline),
-          ),
-        ],
-      ),
-      body: _isLoading
-          ? const Center(
-              child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CupertinoActivityIndicator(
-                  radius: 30,
-                ),
-                MediumText("Please wait...")
-              ],
-            ))
-          : NotificationListener<ScrollNotification>(
-              onNotification: (ScrollNotification scrollInfo) {
-                if (!_isLoading &&
-                    scrollInfo.metrics.pixels ==
-                        scrollInfo.metrics.maxScrollExtent) {
-                  loadMoreMembers();
-                }
-                return true;
-              },
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+          ],
+        ),
+        body: _isLoading
+            ? Center(child: SearchingIndicator(text: "Please wait..."))
+            : Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   children: [
                     TextField(
@@ -146,67 +127,48 @@ class _memberscreenState extends State<memberscreen> {
                         });
                       },
                       decoration: const InputDecoration(
-                        label: Text("Search name..."),
+                        label: Text("Search Reg Number..."),
                         prefixIcon: Icon(Icons.search),
                       ),
                     ),
-                    if (displayedMembers.isEmpty)
-                      Container(
-                        margin: const EdgeInsets.all(20),
-                        child: _isMemberEmpty
-                            ? const Text("No members found :(")
-                            : const CupertinoActivityIndicator(
-                                radius: 20,
-                              ),
-                      )
-                    else
-                      Column(
-                        children: [
-                          FilterRadioButtons(
-                            currentFilter: _currentFilter,
-                            onChanged: (newValue) {
-                              setState(() {
-                                _currentFilter = newValue;
-                              });
-                              updateDisplayedMembers();
-                            },
-                          ),
-                          Column(
-                            children: displayedMembers
-                                .map((e) => membertile(e))
-                                .toList(),
-                          ),
-                        ],
-                      )
+                    FilterRadioButtons(
+                      currentFilter: _currentFilter,
+                      onChanged: (newValue) {
+                        setState(() {
+                          _currentFilter = newValue;
+                        });
+                        // if (_currentFilter == 0) {
+                        //   fetchInitialData();
+                        // } else if (_currentFilter == 1) {
+                        //   fetchActiveMembers();
+                        // } else if (_currentFilter == 2) {
+                        //   fetchExpiredMembers();
+                        // }
+                      },
+                    ),
+                    Expanded(
+                      child: _isSearching
+                          ? SearchingIndicator(
+                              text: "Searching for Gym Rats...")
+                          : FirestorePagination(
+                              initialLoader: SearchingIndicator(
+                                  text: "Searching for Gym Rats..."),
+                              limit: 12,
+                              bottomLoader: const Center(
+                                  child: Text("Fetching data from Gene...")),
+                              isLive: true,
+                              query: memberQuery,
+                              itemBuilder: (context, documentSnapshot, index) {
+                                final member = GymMember.fromMap(
+                                    documentSnapshot.data()
+                                        as Map<String, dynamic>);
+
+                                return membertile(user.uid, member);
+                              },
+                            ),
+                    ),
                   ],
-                ),
-              ),
-            ),
-    );
-  }
-
-  void updateDisplayedMembers() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    await Future.delayed(const Duration(milliseconds: 300));
-
-    setState(() {
-      if (_currentFilter == 1) {
-        displayedMembers = sortMembers();
-      } else if (_currentFilter == 2) {
-        displayedMembers = getActiveMembers();
-      } else if (_currentFilter == 3) {
-        displayedMembers = getExpiredMembers();
-      }
-      if (_currentFilter == _previousFilter) {
-        _currentFilter = 0;
-        displayedMembers = allMembers;
-      }
-      _previousFilter = _currentFilter;
-      _isLoading = false;
-    });
+                )));
   }
 }
 
@@ -215,36 +177,38 @@ class FilterRadioButtons extends StatelessWidget {
   final ValueChanged<int> onChanged;
 
   const FilterRadioButtons({
-    Key? key,
+    super.key,
     required this.currentFilter,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        const Icon(Icons.filter_list_alt),
-        CustomRadioButton(
-          text: "Reg no",
-          value: 1,
-          groupValue: currentFilter,
-          onChanged: onChanged,
-        ),
-        CustomRadioButton(
-          text: "Active",
-          value: 2,
-          groupValue: currentFilter,
-          onChanged: onChanged,
-        ),
-        CustomRadioButton(
-          text: "Expired",
-          value: 3,
-          groupValue: currentFilter,
-          onChanged: onChanged,
-        ),
-      ],
-    );
+    return Container(
+        margin: EdgeInsets.symmetric(vertical: 10),
+        padding: EdgeInsets.symmetric(vertical: 5),
+        child: Row(
+          children: [
+            const Icon(Icons.filter_list_alt),
+            CustomRadioButton(
+              text: "All",
+              value: 0,
+              groupValue: currentFilter,
+              onChanged: onChanged,
+            ),
+            CustomRadioButton(
+              text: "Active",
+              value: 1,
+              groupValue: currentFilter,
+              onChanged: onChanged,
+            ),
+            CustomRadioButton(
+              text: "Expired",
+              value: 2,
+              groupValue: currentFilter,
+              onChanged: onChanged,
+            ),
+          ],
+        ));
   }
 }

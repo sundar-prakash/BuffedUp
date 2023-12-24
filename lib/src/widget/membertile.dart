@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class membertile extends StatelessWidget {
+  String gymName;
   GymMember member;
-  membertile(this.member, {super.key});
+  membertile(this.gymName, this.member, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +23,10 @@ class membertile extends StatelessWidget {
           color: MembershipOver ? Colors.red[100] : Colors.green[100],
           borderRadius: BorderRadius.circular(20)),
       child: ListTile(
-        onTap: () => Navigator.push(context,
-            MaterialPageRoute(builder: (context) => viewmemberscreen(member))),
+        onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => viewmemberscreen(gymName, member))),
         leading: CircleAvatar(child: Text(member.name.substring(0, 1))),
         title: Text(member.name),
         subtitle: Text("Register Number: ${member.registerNumber.toString()}"),
@@ -31,7 +34,7 @@ class membertile extends StatelessWidget {
             onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => editmemberscreen(member))),
+                    builder: (context) => editmemberscreen(gymName, member))),
             icon: Icon(Icons.edit)),
       ),
     );
@@ -43,3 +46,4 @@ bool isMembershipExpired(DateTime paidon, Duration validity) {
   final DateTime currentDate = DateTime.now();
   return currentDate.isAfter(expiryDate);
 }
+//shared prefrence to save filter

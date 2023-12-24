@@ -10,12 +10,9 @@ class ImageDialog extends StatelessWidget {
     return Dialog(
       backgroundColor: Colors.transparent,
       shadowColor: Colors.transparent,
-      child: Hero(
-        tag: 'avatarTag',
-        child: AvatarContainer(
-          size: 200,
-          imageUrl: imageUrl,
-        ),
+      child: CircleAvatar(
+        radius: 150,
+        backgroundImage: NetworkImage(imageUrl),
       ),
     );
   }
@@ -49,23 +46,6 @@ class NetImage extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class AvatarContainer extends StatelessWidget {
-  final double size;
-  final String imageUrl;
-
-  AvatarContainer({required this.size, required this.imageUrl});
-
-  @override
-  Widget build(BuildContext context) {
-    return CircleAvatar(
-      radius: size / 2,
-      backgroundColor: Color.fromARGB(
-          255, 179, 123, 231), // Replace with your desired background color
-      backgroundImage: NetworkImage(imageUrl),
     );
   }
 }

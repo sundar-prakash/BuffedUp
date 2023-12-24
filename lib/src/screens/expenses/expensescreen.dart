@@ -51,6 +51,7 @@ class _expensescreenState extends State<expensescreen> {
   }
 }
 
+// ignore: must_be_immutable
 class expensesCard extends StatelessWidget {
   String title;
   List<expensesCardType> expenses = [];

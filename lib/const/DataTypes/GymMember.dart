@@ -6,12 +6,14 @@ class GymMember {
   final String phoneNumber;
   final String? profilePicture;
   final int registerNumber;
+  final String gymownerid;
   final String? homeaddress;
 
   const GymMember({
     required this.name,
     this.email,
     required this.joinDate,
+    required this.gymownerid,
     required this.registerNumber,
     required this.membershipType,
     required this.phoneNumber,
@@ -25,6 +27,7 @@ class GymMember {
       'joinDate': joinDate.toIso8601String(), // Convert DateTime to String
       'registerNumber': registerNumber,
       'homeaddress': homeaddress,
+      'gymownerid':gymownerid,
       'membershipType': {
         'amount': membershipType.amount,
         'category': membershipType.category,
@@ -44,6 +47,7 @@ class GymMember {
       joinDate: DateTime.parse(data['joinDate'] as String),
       homeaddress: data['homeaddress'] ?? '',
       registerNumber: data['registerNumber'] ?? 0,
+      gymownerid: data['gymownerid']??'',
       membershipType: MembershipType(
         amount: data['membershipType']['amount'] as int,
         paidon: DateTime.parse(data['membershipType']['paidon'] as String),

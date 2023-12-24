@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class editmemberscreen extends StatelessWidget {
+  String gymownerid;
   GymMember member;
-  editmemberscreen(this.member, {super.key});
+  
+  editmemberscreen( this.gymownerid,this.member, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class editmemberscreen extends StatelessWidget {
       ),
       body: Container(
         margin: EdgeInsets.all(10),
-        child: MemberForm(member: member),
+        child: MemberForm(gymownerid,member: member),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:BuffedUp/const/DataTypes/GymMember.dart';
-import 'package:BuffedUp/src/services/firestore/userdoc.dart';
+import 'package:BuffedUp/src/services/firestore/memberdoc.dart';
+import 'package:BuffedUp/src/services/firestore/ownerdoc.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
@@ -16,10 +17,8 @@ class FirestoreImportScreen extends StatelessWidget {
         List<dynamic> jsonData = json.decode(jsonContent);
 
         List<GymMember> gymMembers = jsonData.map((memberData) {
-          String paidon =
-              memberData['paidon'] ?? ''; // Using empty string if null
-          String joinDate =
-              memberData['joinDate'] ?? ''; // Using empty string if null
+          String paidon = memberData['paidon'] ?? '';
+          String joinDate = memberData['joinDate'] ?? '';
 
           DateFormat dateFormat = DateFormat('dd-MM-yyyy');
           DateTime paidonDateTime =
@@ -43,6 +42,7 @@ class FirestoreImportScreen extends StatelessWidget {
             homeaddress: memberData['homeaddress'] != null
                 ? memberData['homeaddress'].toString()
                 : "",
+            gymownerid: '2Jt614Fn7cfIcf7aR5U2DTrGUyq1',
             registerNumber: memberData['registerNumber'] ?? 0,
             membershipType: mt,
             phoneNumber: memberData['phoneNumber'] != null
@@ -52,8 +52,19 @@ class FirestoreImportScreen extends StatelessWidget {
         }).toList();
 
         print("Started");
-        for (var member in gymMembers) {
-          await uploadMember(member);
+        try {
+          List<String> docIds = [];
+
+          for (var member in gymMembers) {
+            final docId = await createMemberDocument(member);
+            if (docId != null) {
+              docIds.add(docId);
+            }
+          }
+
+          await updateOwner('members', docIds);
+        } catch (e) {
+          throw e;
         }
 
         print('Data imported successfully!');

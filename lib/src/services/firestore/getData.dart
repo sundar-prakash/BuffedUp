@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 final _uid = FirebaseAuth.instance.currentUser!.uid;
-final _docRef = _firestore.collection('users').doc(_uid);
+final _docRef = _firestore.collection('gymowner').doc(_uid);
 Future<List<GymMember>> fetchAllMembers() async {
   final docSnapshot = await _docRef.get();
 

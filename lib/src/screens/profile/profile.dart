@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:BuffedUp/const/DataTypes/UserProfile.dart';
 import 'package:BuffedUp/src/services/authService.dart';
-import 'package:BuffedUp/src/services/firestore/userdoc.dart';
+import 'package:BuffedUp/src/services/firestore/ownerdoc.dart';
 import 'package:BuffedUp/src/widget/decoratedtextinput.dart';
 import 'package:BuffedUp/src/widget/imagepicker.dart';
+import 'package:BuffedUp/src/widget/searchindicator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -68,10 +69,14 @@ class _profilescreenState extends State<profilescreen> {
                                     icon: CircleAvatar(
                                       radius: 120,
                                       backgroundImage: _imageFile != null
-                                          ? FileImage(File(_imageFile!.path))
-                                              as ImageProvider // Explicit cast
-                                          : NetworkImage(widget.user.avatar)
-                                              as ImageProvider, // Explicit cast
+                                          ? kIsWeb
+                                              ? Image.network(_imageFile!.path)
+                                                  .image
+                                              : Image.file(
+                                                      File(_imageFile!.path))
+                                                  .image
+                                          : Image.network(widget.user.avatar)
+                                              .image,
                                     )),
                                 RoundedTextField(
                                   controller: _nameController,
@@ -119,7 +124,9 @@ class _profilescreenState extends State<profilescreen> {
                                   height: 20,
                                 ),
                                 if (_isLoading)
-                                  const CupertinoActivityIndicator(),
+                                  SearchingIndicator(
+                                    radius: 1,
+                                  ),
                                 const SizedBox(
                                   height: 20,
                                 ),
