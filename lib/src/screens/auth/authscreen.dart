@@ -40,7 +40,7 @@ class _authState extends State<auth> {
           const SizedBox(
             height: 20,
           ),
-          if (_isLoading) SearchingIndicator(radius: 5,),
+          if (_isLoading) SearchingIndicator(radius: 10,),
           const SizedBox(
             height: 20,
           ),

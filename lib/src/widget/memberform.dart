@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 class MemberForm extends StatefulWidget {
   final GymMember? member;
   final String gymownerid;
-   MemberForm( this.gymownerid,{super.key, this.member});
+  MemberForm(this.gymownerid, {super.key, this.member});
   @override
   State<MemberForm> createState() => _MemberFormState();
 }
@@ -25,8 +25,10 @@ class _MemberFormState extends State<MemberForm> {
         TextEditingController(text: widget.member?.phoneNumber);
     final _joinDateController = TextEditingController(
         text: widget.member != null ? yearFormat(widget.member!.joinDate) : "");
-        final _categoryController = TextEditingController(
-        text: widget.member != null ? widget.member?.membershipType.category : "");
+    final _categoryController = TextEditingController(
+        text: widget.member != null
+            ? widget.member?.membershipType.category
+            : "");
     final _amountController = TextEditingController(
         text: widget.member?.membershipType.amount.toString());
     final _paidOnController = TextEditingController(
@@ -137,20 +139,21 @@ class _MemberFormState extends State<MemberForm> {
                         return null;
                       },
                       onTap: () => datePicker(context, _paidOnController)),
-                      RoundedTextField(
-                      controller: _categoryController,
-                      decoration: const InputDecoration(labelText: 'Category'),
-                      validator: (value) {
-                       if (value != null && value.isEmpty) {
-      return 'Category should not be empty';
-    } else if (value != null && value.length > 50) {
-      return 'Category should not exceed 50 characters';
-    } else if (value != null && !RegExp(r'^[a-zA-Z0-9 ]*$').hasMatch(value)) {
-      return 'Category can only contain letters and numbers';
-    }
-    return null;
-  },
-                      ),
+                  RoundedTextField(
+                    controller: _categoryController,
+                    decoration: const InputDecoration(labelText: 'Category'),
+                    validator: (value) {
+                      if (value != null && value.isEmpty) {
+                        return 'Category should not be empty';
+                      } else if (value != null && value.length > 50) {
+                        return 'Category should not exceed 50 characters';
+                      } else if (value != null &&
+                          !RegExp(r'^[a-zA-Z0-9 ]*$').hasMatch(value)) {
+                        return 'Category can only contain letters and numbers';
+                      }
+                      return null;
+                    },
+                  ),
                   RoundedTextField(
                     controller: _validityController,
                     keyboardType: TextInputType.number,
@@ -177,10 +180,11 @@ class _MemberFormState extends State<MemberForm> {
                           registerNumber:
                               int.parse(_registerNumberController.text),
                           email: _emailController.text,
-                          // profilePicture: ,
+                          //profile pic
                           membershipType: MembershipType(
                               amount: int.parse(_amountController.text),
                               paidon: DateTime.parse(_paidOnController.text),
+                              category: _categoryController.text,
                               validity: Duration(
                                   days: int.parse(_validityController.text))),
                           phoneNumber: _phoneNumberController.text);
@@ -195,8 +199,7 @@ class _MemberFormState extends State<MemberForm> {
                                 : 'An error occurred'),
                           ),
                         );
-                      } catch (e) {
-                      }
+                      } catch (e) {}
                       Navigator.pop(context);
                     }
                   },
