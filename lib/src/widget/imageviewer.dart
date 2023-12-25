@@ -20,7 +20,7 @@ class ImageDialog extends StatelessWidget {
 
 class NetImage extends StatelessWidget {
   final String imageUrl;
-  NetImage(this.imageUrl);
+  const NetImage(this.imageUrl, {super.key});
 
   @override
   Widget build(BuildContext context) {

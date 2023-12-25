@@ -27,14 +27,20 @@ class homeprofile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onDoubleTap: () => Navigator.push(context,
-            MaterialPageRoute(builder: (context) => profilescreen(user))),
+            MaterialPageRoute(builder: (context) => ProfileScreen(user))),
         child: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                  stops: [0, 1],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Color(0xFF3eafe1), Color(0xff6f67e8)]),
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color.fromARGB(255, 115, 88, 252),
+                  Color(0xFF755EE8),
+                  Colors.purpleAccent,
+                  Color.fromARGB(255, 231, 71, 252),
+                  Colors.amber,
+                ],
+              ),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(30),
                 bottomRight: Radius.circular(30),
@@ -59,17 +65,18 @@ class homeprofile extends StatelessWidget {
                   ],
                 ),
                 GestureDetector(
-                    onTap: () async {
-                      await showDialog(
-                          context: context,
-                          builder: (_) => ImageDialog(user.avatar));
-                    },
-                    child: 
-                     CircleAvatar(
+                  onTap: () async {
+                    await showDialog(
+                        context: context,
+                        builder: (_) => ImageDialog(user.avatar));
+                  },
+                  child: Hero(
+                      tag: "avatar",
+                      child: CircleAvatar(
                         backgroundImage: NetworkImage(user.avatar),
                         radius: 50,
-                      ),
-                  ),
+                      )),
+                ),
               ],
             )));
   }

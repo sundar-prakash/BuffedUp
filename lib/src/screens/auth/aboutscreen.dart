@@ -9,14 +9,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class aboutscreen extends StatefulWidget {
-  const aboutscreen({super.key});
+class AboutScreen extends StatefulWidget {
+  const AboutScreen({super.key});
 
   @override
-  State<aboutscreen> createState() => _aboutscreenState();
+  State<AboutScreen> createState() => _AboutScreenState();
 }
 
-class _aboutscreenState extends State<aboutscreen> {
+class _AboutScreenState extends State<AboutScreen> {
   final _nameController = TextEditingController();
   final _gymname = TextEditingController();
   final _bio = TextEditingController();
@@ -30,7 +30,7 @@ class _aboutscreenState extends State<aboutscreen> {
           key: _formKey,
           child: SingleChildScrollView(
               child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 100),
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 100),
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               const BigText("Before You Begin !"),
@@ -62,7 +62,7 @@ class _aboutscreenState extends State<aboutscreen> {
                             ? Image.network(_imageFile!.path).image
                             : Image.file(File(_imageFile!.path)).image
                         : null,
-                    child: _imageFile == null ? Icon(Icons.add) : null,
+                    child: _imageFile == null ? const Icon(Icons.add) : null,
                   )),
               RoundedTextField(
                 controller: _nameController,

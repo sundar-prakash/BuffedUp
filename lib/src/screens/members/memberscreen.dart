@@ -9,14 +9,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_pagination/firebase_pagination.dart';
 import 'package:flutter/material.dart';
 
-class memberscreen extends StatefulWidget {
-  memberscreen({Key? key}) : super(key: key);
+class MemberScreen extends StatefulWidget {
+  const MemberScreen({super.key});
 
   @override
-  State<memberscreen> createState() => _memberscreenState();
+  State<MemberScreen> createState() => _MemberScreenState();
 }
 
-class _memberscreenState extends State<memberscreen> {
+class _MemberScreenState extends State<MemberScreen> {
   final TextEditingController _searchController = TextEditingController();
   late UserProfile user;
   bool _isLoading = true;
@@ -41,48 +41,24 @@ class _memberscreenState extends State<memberscreen> {
     });
   }
 
-  Future<void> fetchActiveMembers() async {
-    memberQuery = FirebaseFirestore.instance
-        .collection('members')
-        .where('gymownerid', isEqualTo: user.uid)
-        .where('expiryDate', isGreaterThan: DateTime.now())
-        .orderBy('registerNumber');
-    setState(() {
-      _isLoading = true;
-    });
-
-    await Future.delayed(const Duration(seconds: 2)); // Simulating delay
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
-  Future<void> fetchExpiredMembers() async {
-    memberQuery = FirebaseFirestore.instance
-        .collection('members')
-        .where('gymownerid', isEqualTo: user.uid)
-        .where('expiryDate', isLessThan: DateTime.now())
-        .orderBy('registerNumber');
-    setState(() {
-      _isLoading = true;
-    });
-
-    await Future.delayed(const Duration(seconds: 2)); // Simulating delay
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
   Future<void> searchMembers(String query) async {
     setState(() {
       _isSearching = true;
       int? regno = int.tryParse(query);
-      if (query != "" && regno != null) {
-        memberQuery = FirebaseFirestore.instance
-            .collection('members')
-            .where('gymownerid', isEqualTo: user.uid)
-            .where('registerNumber', isGreaterThanOrEqualTo: regno)
-            .orderBy('registerNumber');
+      if (query.isNotEmpty) {
+        if (regno != null) {
+          memberQuery = FirebaseFirestore.instance
+              .collection('members')
+              .where('gymownerid', isEqualTo: user.uid)
+              .where('registerNumber', isGreaterThanOrEqualTo: regno)
+              .orderBy('registerNumber');
+        } else {
+          memberQuery = FirebaseFirestore.instance
+              .collection('members')
+              .where('gymownerid', isEqualTo: user.uid)
+              .orderBy('name')
+              .startAt([query]).endAt(['$query\uf7ff']);
+        }
       } else {
         memberQuery = FirebaseFirestore.instance
             .collection('members')
@@ -107,7 +83,7 @@ class _memberscreenState extends State<memberscreen> {
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => newmemberscreen(user.uid)),
+                    builder: (context) => NewMemberScreen(user.uid)),
               ),
               icon: const Icon(Icons.add_circle_outline),
             ),
@@ -153,7 +129,7 @@ class _memberscreenState extends State<memberscreen> {
                           : FirestorePagination(
                               initialLoader: SearchingIndicator(
                                   text: "Searching for Gym Rats..."),
-                              limit: 12,
+                              limit: 15,
                               bottomLoader: const Center(
                                   child: Text("Fetching data from Gene...")),
                               isLive: true,
@@ -163,7 +139,7 @@ class _memberscreenState extends State<memberscreen> {
                                     documentSnapshot.data()
                                         as Map<String, dynamic>);
 
-                                return membertile(user.uid, member);
+                                return MemberTile(user.uid, member);
                               },
                             ),
                     ),
@@ -185,8 +161,8 @@ class FilterRadioButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
-        padding: EdgeInsets.symmetric(vertical: 5),
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 5),
         child: Row(
           children: [
             const Icon(Icons.filter_list_alt),

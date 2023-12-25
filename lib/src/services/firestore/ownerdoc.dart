@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:BuffedUp/const/DataTypes/UserProfile.dart';
 import 'package:BuffedUp/src/services/authService.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,40 +9,41 @@ import 'package:image_picker/image_picker.dart';
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 Future<void> createUserDocument(String uid, String email) async {
-  final _docRef = FirebaseFirestore.instance.collection('gymowner').doc(uid);
+  final docRef = FirebaseFirestore.instance.collection('gymowner').doc(uid);
   final userProfile = UserProfile(
     uid: uid,
     email: email,
   );
 
-  await _docRef.set(userProfile.toMap());
+  await docRef.set(userProfile.toMap());
 }
 
 Future<void> updateFirestoreProfile(
     String name, String avatarurl, String GymName, String bio) async {
   await updateProfile(displayName: name, photoUrl: avatarurl);
-  String _docId = FirebaseAuth.instance.currentUser!.uid;
-  final _docRef = _firestore.collection('gymowner').doc(_docId);
+  String docId = FirebaseAuth.instance.currentUser!.uid;
+  final docRef = _firestore.collection('gymowner').doc(docId);
 
-  await _docRef.update(
+  await docRef.update(
       {'name': name, 'avatar': avatarurl, 'gymname': GymName, 'bio': bio});
 }
 
-Future<void> updateOwner(String key, value) async {
+Future<bool> updateOwner(String key, value) async {
   try {
-    String _docId = FirebaseAuth.instance.currentUser!.uid;
-    final _docRef = _firestore.collection('gymowner').doc(_docId);
+    String docId = FirebaseAuth.instance.currentUser!.uid;
+    final docRef = _firestore.collection('gymowner').doc(docId);
 
-    await _docRef.update({key: value});
+    await docRef.update({key: value});
+    return true;
   } catch (e) {
-    throw e;
+    return false;
   }
 }
 
 Future<UserProfile> fetchOwner() async {
-  String _docId = FirebaseAuth.instance.currentUser!.uid;
-  final _docRef = _firestore.collection('gymowner').doc(_docId);
-  DocumentSnapshot<Map<String, dynamic>> snapshot = await _docRef.get();
+  String docId = FirebaseAuth.instance.currentUser!.uid;
+  final docRef = _firestore.collection('gymowner').doc(docId);
+  DocumentSnapshot<Map<String, dynamic>> snapshot = await docRef.get();
   if (snapshot.exists) {
     Map<String, dynamic> data = snapshot.data()!;
     return UserProfile.fromMap(data);
@@ -66,3 +66,21 @@ Future<String?> uploadImageToFirebase(
     return null;
   }
 }
+Future<List<dynamic>> FetchField(String field) async {
+  String docId = FirebaseAuth.instance.currentUser!.uid;
+  final docRef = FirebaseFirestore.instance.collection('gymowner').doc(docId);
+  final docSnapshot = await docRef.get();
+
+  if (docSnapshot.exists) {
+    final data = docSnapshot.data()?[field] as List?;
+    if (data != null) {
+      return data;
+    } else {
+      return []; 
+    }
+  } else {
+    return []; 
+  }
+}
+
+

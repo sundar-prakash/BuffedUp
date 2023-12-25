@@ -28,8 +28,7 @@ class pagemenu extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                navigator!, // Use navigator as a widget instance
+            builder: (context) => navigator!,
           ),
         );
       } else {
@@ -42,36 +41,38 @@ class pagemenu extends StatelessWidget {
       }
     }
 
-    return GestureDetector(
-      onTap: () => _onPress(),
-      child: Container(
-        margin: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: bgcolor,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        padding: const EdgeInsets.all(10),
-        child: ListTile(
-          leading: Icon(icon),
-          title: Text(header),
-          subtitle: subtext.isNotEmpty
-              ? Text(
-                  subtext,
-                  style: const TextStyle(
-                    fontSize: 12,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  softWrap: false,
-                )
-              : null,
-          trailing: Text(
-            count,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-            ),
+    return Hero(
+      tag: header,
+      child: GestureDetector(
+        onTap: () => _onPress(),
+        child: Container(
+          margin: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: bgcolor,
+            borderRadius: BorderRadius.circular(20),
           ),
+          padding: const EdgeInsets.all(10),
+          child: ListTile(
+              leading: Icon(icon),
+              title: Text(header),
+              subtitle: subtext.isNotEmpty
+                  ? Text(
+                      subtext,
+                      style: const TextStyle(
+                        fontSize: 12,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: false,
+                    )
+                  : null,
+              trailing: Text(
+                count,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
         ),
       ),
     );

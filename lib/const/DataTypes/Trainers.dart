@@ -1,24 +1,20 @@
-class GymMember {
+class Trainer {
   final String name;
   final String? email;
   final DateTime joinDate;
-  final MembershipType membershipType;
   final String phoneNumber;
   final String? profilePicture;
   final int registerNumber;
-  final String gymownerid;
+  final String gender;
   final String? homeaddress;
-  final String? gender;
 
-  const GymMember({
+  const Trainer({
     required this.name,
     this.email,
     required this.joinDate,
-    required this.gymownerid,
     required this.registerNumber,
-    required this.membershipType,
     required this.phoneNumber,
-    this.gender,
+    required this.gender,
     this.profilePicture,
     this.homeaddress,
   });
@@ -26,38 +22,23 @@ class GymMember {
     return {
       'name': name,
       'email': email,
-      'joinDate': joinDate.toIso8601String(), // Convert DateTime to String
+      'joinDate': joinDate.toIso8601String(),
       'registerNumber': registerNumber,
       'homeaddress': homeaddress,
-      'gymownerid':gymownerid,
-      'gender':gender,
-      'membershipType': {
-        'amount': membershipType.amount,
-        'category': membershipType.category,
-        'paidon': membershipType.paidon
-            .toIso8601String(), // Convert DateTime to String
-        'validity': membershipType.validity.inDays,
-      },
       'phoneNumber': phoneNumber,
+      'gender': gender,
       'profilePicture': profilePicture,
     };
   }
 
-  static GymMember fromMap(Map<String, dynamic> data) {
-    return GymMember(
+  static Trainer fromMap(Map<String, dynamic> data) {
+    return Trainer(
       name: data['name'] as String,
       email: data['email'] as String?,
       joinDate: DateTime.parse(data['joinDate'] as String),
       homeaddress: data['homeaddress'] ?? '',
       registerNumber: data['registerNumber'] ?? 0,
-      gymownerid: data['gymownerid']??'',
-      gender:data['gender'] as String?,
-      membershipType: MembershipType(
-        amount: data['membershipType']['amount'] as int,
-        paidon: DateTime.parse(data['membershipType']['paidon'] as String),
-        category: data['membershipType']['category'] ?? "",
-        validity: Duration(days: data['membershipType']['validity'] as int),
-      ),
+      gender: data['gender'] as String,
       phoneNumber: data['phoneNumber'] as String,
       profilePicture: data['profilePicture'] as String?,
     );

@@ -12,15 +12,15 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 // ignore: must_be_immutable
-class profilescreen extends StatefulWidget {
+class ProfileScreen extends StatefulWidget {
   UserProfile user;
-  profilescreen(this.user, {super.key});
+  ProfileScreen(this.user, {super.key});
 
   @override
-  State<profilescreen> createState() => _profilescreenState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _profilescreenState extends State<profilescreen> {
+class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _gymname = TextEditingController();
   TextEditingController _bio = TextEditingController();
@@ -38,9 +38,9 @@ class _profilescreenState extends State<profilescreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Profile")),
+        appBar: AppBar(title: const Text("Profile")),
         body: Container(
-            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
             child: SingleChildScrollView(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -50,7 +50,7 @@ class _profilescreenState extends State<profilescreen> {
                         key: _formKey,
                         child: SingleChildScrollView(
                             child: Container(
-                          margin: EdgeInsets.symmetric(
+                          margin: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 100),
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -66,18 +66,22 @@ class _profilescreenState extends State<profilescreen> {
                                         });
                                       }
                                     },
-                                    icon: CircleAvatar(
-                                      radius: 120,
-                                      backgroundImage: _imageFile != null
-                                          ? kIsWeb
-                                              ? Image.network(_imageFile!.path)
-                                                  .image
-                                              : Image.file(
-                                                      File(_imageFile!.path))
-                                                  .image
-                                          : Image.network(widget.user.avatar)
-                                              .image,
-                                    )),
+                                    icon: Hero(
+                                        tag: "avatar",
+                                        child: CircleAvatar(
+                                          radius: 120,
+                                          backgroundImage: _imageFile != null
+                                              ? kIsWeb
+                                                  ? Image.network(
+                                                          _imageFile!.path)
+                                                      .image
+                                                  : Image.file(File(
+                                                          _imageFile!.path))
+                                                      .image
+                                              : Image.network(
+                                                      widget.user.avatar)
+                                                  .image,
+                                        ))),
                                 RoundedTextField(
                                   controller: _nameController,
                                   decoration:
@@ -161,7 +165,7 @@ class _profilescreenState extends State<profilescreen> {
                                             try {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
-                                                SnackBar(
+                                                const SnackBar(
                                                   content: Text(
                                                       'Saved Successfully!'),
                                                 ),
@@ -177,19 +181,19 @@ class _profilescreenState extends State<profilescreen> {
                         logout();
                         Navigator.pop(context);
                       },
-                      icon: Icon(Icons.logout),
-                      label: Text("Logout"),
+                      icon: const Icon(Icons.logout),
+                      label: const Text("Logout"),
                       style: ButtonStyle(
                         shape: MaterialStateProperty.all(
                           RoundedRectangleBorder(
-                            side: BorderSide(color: Colors.red),
+                            side: const BorderSide(color: Colors.red),
                             borderRadius: BorderRadius.circular(0.0),
                           ),
                         ),
                         overlayColor: MaterialStateProperty.all(
                             Colors.red.withOpacity(0.1)),
                         minimumSize: MaterialStateProperty.all(
-                            Size(double.infinity, 50)),
+                            const Size(double.infinity, 50)),
                       ),
                     )
                   ]),

@@ -6,10 +6,10 @@ import 'package:BuffedUp/src/widget/membertile.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class viewmemberscreen extends StatelessWidget {
+class ViewMemberScreen extends StatelessWidget {
   String gymownerid;
   GymMember member;
-  viewmemberscreen(this.gymownerid, this.member, {super.key});
+  ViewMemberScreen(this.gymownerid, this.member, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,8 @@ class viewmemberscreen extends StatelessWidget {
                 Row(
                   children: [
                     CircleAvatar(
-                      backgroundImage: member.profilePicture != ""
+                      backgroundImage: member.profilePicture != null &&
+                              member.profilePicture!.isNotEmpty
                           ? NetworkImage(member.profilePicture!)
                           : null,
                       radius: 40,
@@ -63,10 +64,22 @@ class viewmemberscreen extends StatelessWidget {
                 ),
                 const Divider(),
                 ListTile(
+                  leading: const Icon(Icons.home),
+                  title: Text(member.homeaddress != ""
+                      ? member.homeaddress ?? 'No Address'
+                      : 'No Address'),
+                ),
+                ListTile(
                   leading: const Icon(Icons.email),
                   title: Text(member.email != ""
                       ? member.email ?? 'No Email'
                       : 'No Email'),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.person),
+                  title: Text(member.gender != ""
+                      ? member.gender ?? 'No Gender'
+                      : 'No Gender'),
                 ),
                 ListTile(
                   leading: const Icon(Icons.phone),
@@ -127,7 +140,7 @@ class viewmemberscreen extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    editmemberscreen(gymownerid, member)));
+                                    EditMemberScreen(gymownerid, member)));
                       },
                       label: const Text('Edit'),
                       icon: const Icon(Icons.edit),

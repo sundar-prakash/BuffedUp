@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: title,
       theme: lightTheme,
-      home: const mainscreen(),
+      home: const MainScreen(),
     );
   }
 }

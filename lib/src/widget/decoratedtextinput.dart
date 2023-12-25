@@ -12,8 +12,8 @@ class RoundedTextField extends StatelessWidget {
   final VoidCallback? onTap;
   final bool isMultiline;
 
-  RoundedTextField({
-    Key? key,
+  const RoundedTextField({
+    super.key,
     required this.controller,
     this.focusNode,
     this.readOnly = false,
@@ -24,12 +24,12 @@ class RoundedTextField extends StatelessWidget {
     this.textInputAction = TextInputAction.done,
     this.onChanged,
     this.validator,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
+        margin: const EdgeInsets.symmetric(vertical: 10),
         child: TextFormField(
           controller: controller,
           focusNode: focusNode,

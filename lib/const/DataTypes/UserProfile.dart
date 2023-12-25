@@ -7,6 +7,7 @@ class UserProfile {
   String avatar;
   String gymName;
   List<dynamic> members;
+  List<dynamic> trainers;
   List<dynamic> equipments;
   List<dynamic> expenses;
 
@@ -19,6 +20,7 @@ class UserProfile {
     this.avatar = '',
     this.gymName = '',
     this.members = const [],
+    this.trainers = const [],
     this.equipments = const [],
     this.expenses = const [],
   });
@@ -33,6 +35,7 @@ class UserProfile {
       'avatar': avatar,
       'gymname': gymName,
       'members': members,
+      'trainers': trainers,
       'equipments': equipments,
       'expenses': expenses,
     };
@@ -50,6 +53,7 @@ class UserProfile {
       members: (map['members'] as List<dynamic>?)?.toList() ?? [],
       equipments: (map['equipments'] as List<dynamic>?)?.toList() ?? [],
       expenses: (map['expenses'] as List<dynamic>?)?.toList() ?? [],
+      trainers: (map['trainers'] as List<dynamic>?)?.toList() ?? [],
     );
   }
 }

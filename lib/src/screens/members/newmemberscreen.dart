@@ -2,9 +2,9 @@ import 'package:BuffedUp/src/widget/memberform.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class newmemberscreen extends StatelessWidget {
+class NewMemberScreen extends StatelessWidget {
   String gymownerid;
-  newmemberscreen(this.gymownerid,{super.key});
+  NewMemberScreen(this.gymownerid,{super.key});
 
   @override
   Widget build(BuildContext context) {

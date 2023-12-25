@@ -7,17 +7,17 @@ class CustomRadioButton extends StatelessWidget {
   final ValueChanged<int> onChanged;
 
   const CustomRadioButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.value,
     required this.groupValue,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 10),
         child: OutlinedButton(
           onPressed: () {
             onChanged(value);

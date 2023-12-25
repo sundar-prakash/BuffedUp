@@ -1,6 +1,8 @@
 import 'package:BuffedUp/const/Captions.dart';
 import 'package:BuffedUp/const/DataTypes/UserProfile.dart';
+import 'package:BuffedUp/src/screens/equipments/equipmentscreen.dart';
 import 'package:BuffedUp/src/screens/members/memberscreen.dart';
+import 'package:BuffedUp/src/screens/trainers/Trainerscreen.dart';
 import 'package:BuffedUp/src/widget/homeprofile.dart';
 import 'package:BuffedUp/src/widget/pagemenu.dart';
 import 'package:BuffedUp/src/widget/searchindicator.dart';
@@ -8,10 +10,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-// ignore: camel_case_types
-class homescreen extends StatelessWidget {
-  const homescreen({super.key});
-
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,26 +39,28 @@ class homescreen extends StatelessWidget {
                           "Members",
                           Icons.group,
                           user.members.length.toString(),
-                          navigator: memberscreen(),
+                          navigator: const MemberScreen(),
                           subtext: "Many people!",
                         ),
-                        pagemenu(
-                          "Expenses",
-                          Icons.attach_money,
-                          "00",
-                          subtext: "Poor guy:(",
-                        ),
+                        // pagemenu(
+                        //   "Expenses",
+                        //   Icons.attach_money,
+                        //   "00",
+                        //   subtext: "Poor guy:(",
+                        // ),
                         pagemenu(
                           "Trainers",
                           Icons.school,
-                          "00",
-                          subtext: "69 more...",
+                          user.trainers.length.toString(),
+                          subtext: "69 more rep...",
+                          navigator: const TrainerScreen(),
                         ),
                         pagemenu(
                           "Equipment",
                           Icons.fitness_center,
-                          "56",
-                          subtext: "too hEavy",
+                          user.equipments.length.toString(),
+                          subtext: "Light weight baby",
+                          navigator: const EquipmentScreen(),
                         ),
                       ],
                     ),
@@ -69,8 +71,7 @@ class homescreen extends StatelessWidget {
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
-                return  Center(
-                    child: SearchingIndicator());
+                return Center(child: SearchingIndicator());
               }
             }));
   }

@@ -4,13 +4,13 @@ import 'package:BuffedUp/src/widget/searchindicator.dart';
 import 'package:BuffedUp/src/widget/text.dart';
 import 'package:flutter/material.dart';
 
-class auth extends StatefulWidget {
-  const auth({super.key});
+class AuthScreen extends StatefulWidget {
+  const AuthScreen({super.key});
   @override
-  State<auth> createState() => _authState();
+  State<AuthScreen> createState() => _AuthScreenState();
 }
 
-class _authState extends State<auth> {
+class _AuthScreenState extends State<AuthScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   String message = "";

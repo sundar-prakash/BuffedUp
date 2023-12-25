@@ -5,7 +5,7 @@ class BigText extends StatelessWidget {
   final bool bold;
 
   const BigText(
-    this.text, {
+    this.text, {super.key, 
     this.bold = false,
   });
 
@@ -26,7 +26,7 @@ class MediumText extends StatelessWidget {
   final bool bold;
 
   const MediumText(
-    this.text, {
+    this.text, {super.key, 
     this.bold = false,
   });
 
@@ -47,7 +47,7 @@ class SmallText extends StatelessWidget {
   final bool bold;
 
   const SmallText(
-    this.text, {
+    this.text, {super.key, 
     this.bold = false,
   });
 
@@ -68,7 +68,7 @@ class SubtitleText extends StatelessWidget {
   final bool bold;
 
   const SubtitleText(
-    this.text, {
+    this.text, {super.key, 
     this.bold = false,
   });
 

@@ -4,14 +4,14 @@ import 'package:BuffedUp/src/screens/auth/authscreen.dart';
 import 'package:BuffedUp/src/screens/home/homescreen.dart';
 import 'package:flutter/material.dart';
 
-class mainscreen extends StatefulWidget {
-  const mainscreen({super.key});
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  State<mainscreen> createState() => _mainscreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _mainscreenState extends State<mainscreen> {
+class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
@@ -20,12 +20,12 @@ class _mainscreenState extends State<mainscreen> {
         if (snapshot.hasData) {
           if (snapshot.data?.displayName == null &&
               snapshot.data?.photoURL == null) {
-            return const aboutscreen();
+            return const AboutScreen();
           } else {
-            return const homescreen();
+            return const HomeScreen();
           }
         } else {
-          return const auth();
+          return const AuthScreen();
         }
       },
     );
