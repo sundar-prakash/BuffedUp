@@ -1,5 +1,5 @@
 import 'package:BuffedUp/const/DataTypes/Trainers.dart';
-import 'package:BuffedUp/src/screens/trainers/edittrainer.dart';
+import 'package:BuffedUp/src/screens/trainers/EditTrainer.dart';
 import 'package:BuffedUp/src/services/firestore/ownerdoc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
