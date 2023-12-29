@@ -32,7 +32,6 @@ Future<bool> updateOwner(String key, value) async {
   try {
     String docId = FirebaseAuth.instance.currentUser!.uid;
     final docRef = _firestore.collection('gymowner').doc(docId);
-
     await docRef.update({key: value});
     return true;
   } catch (e) {
@@ -66,6 +65,7 @@ Future<String?> uploadImageToFirebase(
     return null;
   }
 }
+
 Future<List<dynamic>> FetchField(String field) async {
   String docId = FirebaseAuth.instance.currentUser!.uid;
   final docRef = FirebaseFirestore.instance.collection('gymowner').doc(docId);
@@ -76,11 +76,9 @@ Future<List<dynamic>> FetchField(String field) async {
     if (data != null) {
       return data;
     } else {
-      return []; 
+      return [];
     }
   } else {
-    return []; 
+    return [];
   }
 }
-
-

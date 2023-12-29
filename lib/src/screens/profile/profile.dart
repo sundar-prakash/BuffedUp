@@ -135,12 +135,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   height: 20,
                                 ),
                                 ElevatedButton(
-                                    onPressed: _isLoading
-                                        ? null
-                                        : () async {
-                                            setState(() {
-                                              _isLoading = true;
-                                            });
+                                  onPressed: _isLoading
+                                      ? null
+                                      : () async {
+                                          setState(() {
+                                            _isLoading = true;
+                                          });
+
+                                          try {
                                             if (_formKey.currentState!
                                                 .validate()) {
                                               String? avatarurl =
@@ -148,32 +150,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               if (_imageFile != null) {
                                                 avatarurl =
                                                     await uploadImageToFirebase(
-                                                        _imageFile!,
-                                                        'avatar',
-                                                        FirebaseAuth.instance
-                                                            .currentUser!.uid);
+                                                  _imageFile!,
+                                                  'avatar',
+                                                  FirebaseAuth.instance
+                                                      .currentUser!.uid,
+                                                );
                                               }
                                               await updateFirestoreProfile(
-                                                  _nameController.text,
-                                                  avatarurl!,
-                                                  _gymname.text,
-                                                  _bio.text);
+                                                _nameController.text,
+                                                avatarurl!,
+                                                _gymname.text,
+                                                _bio.text,
+                                              );
                                             }
+
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                content:
+                                                    Text('Saved Successfully!'),
+                                              ),
+                                            );
+                                          } catch (e) {
+                                            print('Error: $e');
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                    'An error occurred while updating.'),
+                                              ),
+                                            );
+                                          } finally {
                                             setState(() {
                                               _isLoading = false;
                                             });
-                                            try {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                const SnackBar(
-                                                  content: Text(
-                                                      'Saved Successfully!'),
-                                                ),
-                                              );
-                                            } catch (e) {}
                                             Navigator.pop(context);
-                                          },
-                                    child: const Text("Update"))
+                                          }
+                                        },
+                                  child: const Text("Update"),
+                                ),
                               ]),
                         ))),
                     TextButton.icon(

@@ -1,10 +1,11 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
 import 'package:BuffedUp/const/DataTypes/GymMember.dart';
+import 'package:BuffedUp/src/screens/members/memberweightscreen.dart';
 import 'package:BuffedUp/src/services/firestore/memberdoc.dart';
 import 'package:BuffedUp/src/widget/decoratedtextinput.dart';
+import 'package:BuffedUp/src/widget/memberweightcard.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class MemberForm extends StatefulWidget {
   final GymMember? member;
@@ -28,7 +29,9 @@ class _MemberFormState extends State<MemberForm> {
     final _phoneNumberController =
         TextEditingController(text: widget.member?.phoneNumber);
     final _joinDateController = TextEditingController(
-        text: widget.member != null ? yearFormat(widget.member!.joinDate) : "");
+        text: widget.member != null
+            ? DateTimetoString(widget.member!.joinDate)
+            : "");
     final _categoryController = TextEditingController(
         text: widget.member != null
             ? widget.member?.membershipType.category
@@ -37,7 +40,7 @@ class _MemberFormState extends State<MemberForm> {
         text: widget.member?.membershipType.amount.toString());
     final _paidOnController = TextEditingController(
         text: widget.member != null
-            ? yearFormat(widget.member!.membershipType.paidon)
+            ? DateTimetoString(widget.member!.membershipType.paidon)
             : "");
     final _validityController = TextEditingController(
         text: widget.member?.membershipType.validity.inDays.toString());
@@ -207,6 +210,21 @@ class _MemberFormState extends State<MemberForm> {
                       return null; // Return null for no error
                     },
                   ),
+                  widget.member?.weightData != null &&
+                          widget.member!.weightData!.isNotEmpty
+                      ? MemberWeightCard(widget.member!.weightData!.first,
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      MemberWeightScreen(widget.member!))))
+                      : TextButton(
+                          onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      MemberWeightScreen(widget.member!))),
+                          child: Text("Add Weight Data"))
                 ],
               ),
               ElevatedButton(
@@ -215,20 +233,25 @@ class _MemberFormState extends State<MemberForm> {
                       GymMember newMember = GymMember(
                           name: _nameController.text,
                           gymownerid: widget.gymownerid,
-                          joinDate: DateTime.parse(_joinDateController.text),
+                          joinDate: StringtoDateTime(_joinDateController.text),
                           registerNumber:
                               int.parse(_registerNumberController.text),
                           email: _emailController.text,
                           homeaddress: _addressController.text,
                           gender: _genderController.text,
                           profilePicture: '',
+
                           //profile pic
                           membershipType: MembershipType(
                               amount: int.parse(_amountController.text),
-                              paidon: DateTime.parse(_paidOnController.text),
+                              paidon: StringtoDateTime(_paidOnController.text),
                               category: _categoryController.text,
-                              validity: Duration(
-                                  days: int.parse(_validityController.text))),
+                              expiryDate: CalculateExpireDate(
+                                  StringtoDateTime(_paidOnController.text),
+                                  intToDays(
+                                      int.parse(_validityController.text))),
+                              validity: intToDays(
+                                  int.parse(_validityController.text))),
                           phoneNumber: _phoneNumberController.text);
                       bool res;
                       if (widget.member != null) {
@@ -261,17 +284,13 @@ Future<void> datePicker(
   final date = await showDatePicker(
     context: context,
     initialDate: controller.text.isNotEmpty
-        ? DateTime.parse(controller.text)
+        ? StringtoDateTime(controller.text)
         : DateTime.now(),
     firstDate: DateTime.now().subtract(const Duration(days: 365 * 10)),
     lastDate: DateTime.now().add(const Duration(days: 365)),
   );
   if (date != null) {
-    final formattedDate = DateFormat('yyyy-MM-dd').format(date);
+    final formattedDate = DateTimetoString(date);
     controller.text = formattedDate;
   }
-}
-
-String yearFormat(DateTime d) {
-  return DateFormat('yyyy-MM-dd').format(d);
 }

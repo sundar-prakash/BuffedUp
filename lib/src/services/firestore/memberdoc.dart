@@ -32,6 +32,20 @@ Future<bool> updateMember(GymMember member) async {
   }
 }
 
+Future<bool> updateMemberField(GymMember member, String key, value) async {
+  try {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('members')
+        .where('gymownerid', isEqualTo: member.gymownerid)
+        .where('registerNumber', isEqualTo: member.registerNumber)
+        .get();
+    await querySnapshot.docs.first.reference.update({key: value});
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 Future<bool> deleteMemberDocument(String gymownerid, int registerNumber) async {
   try {
     QuerySnapshot snapshot = await FirebaseFirestore.instance

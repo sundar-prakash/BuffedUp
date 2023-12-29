@@ -1,6 +1,7 @@
 import 'package:BuffedUp/const/DataTypes/Equipment.dart';
 import 'package:BuffedUp/src/screens/equipments/editequipment.dart';
 import 'package:BuffedUp/src/services/firestore/ownerdoc.dart';
+import 'package:BuffedUp/src/widget/Dialogs.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -75,9 +76,20 @@ class EquipmentCard extends StatelessWidget {
                       child: const Text(
                         "DELETE",
                       ),
-                      onPressed: () async {
-                        final res = await updateOwner('equipments',
-                            FieldValue.arrayRemove([equipment.toMap()]));
+                      onPressed: () {
+                        late bool res;
+                        showDialog(
+                            context: context,
+                            builder: (_) {
+                              return DeleteConfirmationDialog(
+                                  onConfirm: () async {
+                                res = await updateOwner(
+                                    'equipments',
+                                    FieldValue.arrayRemove(
+                                        [equipment.toMap()]));
+                              });
+                            });
+
                         try {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(

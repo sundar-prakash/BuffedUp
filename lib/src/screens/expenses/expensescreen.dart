@@ -1,6 +1,6 @@
 
 import 'package:BuffedUp/const/DataTypes/Expense.dart';
-import 'package:BuffedUp/src/widget/memberform.dart';
+import 'package:BuffedUp/const/DataTypes/GymMember.dart';
 import 'package:BuffedUp/src/widget/text.dart';
 import 'package:flutter/material.dart';
 
@@ -89,7 +89,7 @@ class ExpensesCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Price: \$${e.price}x${e.count}'),
-                      Text(yearFormat(e.purchasedon)),
+                      Text(DateTimetoString(e.purchasedon)),
                     ],
                   ),
                 ))

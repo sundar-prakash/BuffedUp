@@ -1,6 +1,7 @@
 import 'package:BuffedUp/const/DataTypes/Trainers.dart';
 import 'package:BuffedUp/src/screens/trainers/EditTrainer.dart';
 import 'package:BuffedUp/src/services/firestore/ownerdoc.dart';
+import 'package:BuffedUp/src/widget/Dialogs.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -93,9 +94,18 @@ class TrainerCard extends StatelessWidget {
                       child: const Text(
                         "DELETE",
                       ),
-                      onPressed: () async {
-                        final res = await updateOwner('trainers',
-                            FieldValue.arrayRemove([trainer.toMap()]));
+                      onPressed: () {
+                        late bool res;
+                        showDialog(
+                            context: context,
+                            builder: (_) {
+                              return DeleteConfirmationDialog(
+                                  onConfirm: () async {
+                                res = await updateOwner('trainers',
+                                    FieldValue.arrayRemove([trainer.toMap()]));
+                              });
+                            });
+
                         try {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(

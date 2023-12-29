@@ -33,11 +33,16 @@ class _MemberScreenState extends State<MemberScreen> {
   Future<void> fetchInitialData() async {
     user = await fetchOwner();
     setState(() {
+      _isSearching = true;
       memberQuery = FirebaseFirestore.instance
           .collection('members')
           .where('gymownerid', isEqualTo: user.uid)
           .orderBy('registerNumber');
       _isLoading = false;
+    });
+    await Future.delayed(const Duration(seconds: 1));
+    setState(() {
+      _isSearching = false;
     });
   }
 
@@ -57,7 +62,7 @@ class _MemberScreenState extends State<MemberScreen> {
               .collection('members')
               .where('gymownerid', isEqualTo: user.uid)
               .orderBy('name')
-              .startAt([query]).endAt(['$query\uf7ff']);
+              .startAt([query.toLowerCase()]).endAt(['$query\uf7ff']);
         }
       } else {
         memberQuery = FirebaseFirestore.instance
@@ -65,6 +70,39 @@ class _MemberScreenState extends State<MemberScreen> {
             .where('gymownerid', isEqualTo: user.uid)
             .orderBy('registerNumber');
       }
+    });
+    await Future.delayed(const Duration(seconds: 1));
+    setState(() {
+      _isSearching = false;
+    });
+  }
+
+  Future<void> fetchActiveMembers() async {
+    Timestamp currentTimestamp = Timestamp.now();
+    setState(() {
+      _isSearching = true;
+      memberQuery = FirebaseFirestore.instance
+          .collection('members')
+          .where('gymownerid', isEqualTo: user.uid)
+          .where('membershipType.expiryDate', isGreaterThan: currentTimestamp)
+          .orderBy('membershipType.expiryDate');
+    });
+    await Future.delayed(const Duration(seconds: 1));
+    setState(() {
+      _isSearching = false;
+    });
+  }
+
+  Future<void> fetchExpiredMembers() async {
+    Timestamp currentTimestamp = Timestamp.now();
+    setState(() {
+      _isSearching = true;
+      memberQuery = FirebaseFirestore.instance
+          .collection('members')
+          .where('gymownerid', isEqualTo: user.uid)
+          .where('membershipType.expiryDate',
+              isLessThanOrEqualTo: currentTimestamp)
+          .orderBy('membershipType.expiryDate');
     });
     await Future.delayed(const Duration(seconds: 1));
     setState(() {
@@ -103,23 +141,23 @@ class _MemberScreenState extends State<MemberScreen> {
                         });
                       },
                       decoration: const InputDecoration(
-                        label: Text("Search Reg Number..."),
+                        label: Text("Search Name,Reg Number..."),
                         prefixIcon: Icon(Icons.search),
                       ),
                     ),
-                    FilterRadioButtons(
+                    _FilterRadioButtons(
                       currentFilter: _currentFilter,
                       onChanged: (newValue) {
                         setState(() {
                           _currentFilter = newValue;
                         });
-                        // if (_currentFilter == 0) {
-                        //   fetchInitialData();
-                        // } else if (_currentFilter == 1) {
-                        //   fetchActiveMembers();
-                        // } else if (_currentFilter == 2) {
-                        //   fetchExpiredMembers();
-                        // }
+                        if (_currentFilter == 0) {
+                          fetchInitialData();
+                        } else if (_currentFilter == 1) {
+                          fetchActiveMembers();
+                        } else if (_currentFilter == 2) {
+                          fetchExpiredMembers();
+                        }
                       },
                     ),
                     Expanded(
@@ -148,11 +186,11 @@ class _MemberScreenState extends State<MemberScreen> {
   }
 }
 
-class FilterRadioButtons extends StatelessWidget {
+class _FilterRadioButtons extends StatelessWidget {
   final int currentFilter;
   final ValueChanged<int> onChanged;
 
-  const FilterRadioButtons({
+  const _FilterRadioButtons({
     super.key,
     required this.currentFilter,
     required this.onChanged,

@@ -1,8 +1,9 @@
 import 'package:BuffedUp/const/DataTypes/GymMember.dart';
 import 'package:BuffedUp/src/screens/members/editmemberscreen.dart';
+import 'package:BuffedUp/src/screens/members/memberweightscreen.dart';
 import 'package:BuffedUp/src/services/firestore/memberdoc.dart';
-import 'package:BuffedUp/src/widget/memberform.dart';
 import 'package:BuffedUp/src/widget/membertile.dart';
+import 'package:BuffedUp/src/widget/memberweightcard.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -19,7 +20,8 @@ class ViewMemberScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text("${member.registerNumber}"),
         ),
-        body: Card(
+        body: SingleChildScrollView(
+            child: Card(
           elevation: 4,
           margin: const EdgeInsets.all(16),
           child: Padding(
@@ -87,7 +89,8 @@ class ViewMemberScreen extends StatelessWidget {
                 ),
                 ListTile(
                   leading: const Icon(Icons.calendar_today),
-                  title: Text('Join Date: ${yearFormat(member.joinDate)}'),
+                  title:
+                      Text('Join Date: ${DateTimetoString(member.joinDate)}'),
                 ),
                 ListTile(
                   leading: const Icon(Icons.monetization_on),
@@ -95,7 +98,7 @@ class ViewMemberScreen extends StatelessWidget {
                     'Membership Details: ${member.membershipType.amount} - ${member.membershipType.validity.inDays} days',
                   ),
                   subtitle: Text(
-                    'Paid On: ${yearFormat(member.membershipType.paidon)}',
+                    'Paid On: ${DateTimetoString(member.membershipType.paidon)}',
                   ),
                 ),
                 ListTile(
@@ -113,6 +116,13 @@ class ViewMemberScreen extends StatelessWidget {
                     isNotActive ? "Expired" : "Active",
                   ),
                 ),
+                if (member.weightData != null && member.weightData!.isNotEmpty)
+                  MemberWeightCard(member.weightData!.first,
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  MemberWeightScreen(member)))),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -150,6 +160,6 @@ class ViewMemberScreen extends StatelessWidget {
               ],
             ),
           ),
-        ));
+        )));
   }
 }

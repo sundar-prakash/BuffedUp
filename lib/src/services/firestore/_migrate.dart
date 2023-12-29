@@ -14,6 +14,33 @@ class FirestoreImportScreen extends StatelessWidget {
   const FirestoreImportScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    Future<void> _updateExpireDatesForMembers() async {
+      CollectionReference membersRef =
+          FirebaseFirestore.instance.collection('members');
+
+      QuerySnapshot membersSnapshot = await membersRef.get();
+      List docIds = [];
+      print("Started");
+      for (QueryDocumentSnapshot memberDoc in membersSnapshot.docs) {
+        // DateTime paidOn =
+        //     StringtoDateTime(memberDoc['membershipType']['paidon'] as String);
+        // DateTime joindate = StringtoDateTime(memberDoc['joinDate'] as String);
+        // Duration validityInDays =
+        //     intToDays(memberDoc['membershipType']['validity'] as int);
+
+        // DateTime expirationDate = paidOn.add(validityInDays);
+        // await memberDoc.reference.update({
+        //   'membershiptype.paidon': paidOn,
+        //   'membershiptype.expirydate': expirationDate,
+        //   'joinDate': joindate,
+        // });
+        docIds.add(memberDoc.id);
+      }
+      await updateOwner('members', docIds);
+
+      print("completed");
+    }
+
     Future<void> _updateMemberInOwner() async {
       try {
         print("Started");
@@ -49,15 +76,18 @@ class FirestoreImportScreen extends StatelessWidget {
               joinDate.isNotEmpty ? dateFormat.parse(joinDate) : DateTime.now();
 
           MembershipType mt = MembershipType(
+            expiryDate: CalculateExpireDate(
+                paidonDateTime, intToDays(memberData['validity'] ?? 0)),
             amount: memberData['amount'] ?? 0,
             paidon: paidonDateTime,
             category: memberData['category'],
-            validity: Duration(days: memberData['validity'] ?? 0),
+            validity: intToDays(memberData['validity'] ?? 0),
           );
 
           return GymMember(
-            name:
-                memberData['name'] != null ? memberData['name'].toString() : "",
+            name: memberData['name'] != null
+                ? memberData['name'].toString().toLowerCase()
+                : "",
             joinDate: joinDateDateTime,
             email: "",
             profilePicture: "",
@@ -101,7 +131,7 @@ class FirestoreImportScreen extends StatelessWidget {
       ),
       body: Center(
         child: ElevatedButton(
-          onPressed: _updateMemberInOwner,
+          onPressed: null,
           child: const Text('Import Data to Firestore'),
         ),
       ),

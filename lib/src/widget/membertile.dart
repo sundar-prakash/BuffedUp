@@ -46,4 +46,3 @@ bool isMembershipExpired(DateTime paidon, Duration validity) {
   final DateTime currentDate = DateTime.now();
   return currentDate.isAfter(expiryDate);
 }
-//shared prefrence to save filter

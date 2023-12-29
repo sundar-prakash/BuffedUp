@@ -3,6 +3,7 @@ import 'package:BuffedUp/const/DataTypes/UserProfile.dart';
 import 'package:BuffedUp/src/screens/equipments/equipmentscreen.dart';
 import 'package:BuffedUp/src/screens/members/memberscreen.dart';
 import 'package:BuffedUp/src/screens/trainers/Trainerscreen.dart';
+import 'package:BuffedUp/src/services/firestore/_migrate.dart';
 import 'package:BuffedUp/src/widget/homeprofile.dart';
 import 'package:BuffedUp/src/widget/pagemenu.dart';
 import 'package:BuffedUp/src/widget/searchindicator.dart';
@@ -62,6 +63,13 @@ class HomeScreen extends StatelessWidget {
                           subtext: "Light weight baby",
                           navigator: const EquipmentScreen(),
                         ),
+                        // pagemenu(
+                        //   "For Developers",
+                        //   Icons.developer_board,
+                        //   "! 4 u",
+                        //   subtext: "Dont click mfer",
+                        //   navigator: FirestoreImportScreen(),
+                        // ),
                       ],
                     ),
                   );
