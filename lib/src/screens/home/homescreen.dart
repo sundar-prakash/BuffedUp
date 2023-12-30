@@ -2,8 +2,9 @@ import 'package:BuffedUp/const/Captions.dart';
 import 'package:BuffedUp/const/DataTypes/UserProfile.dart';
 import 'package:BuffedUp/src/screens/equipments/equipmentscreen.dart';
 import 'package:BuffedUp/src/screens/members/memberscreen.dart';
+import 'package:BuffedUp/src/screens/notes/notescreen.dart';
+import 'package:BuffedUp/src/screens/settings/settingsScreen.dart';
 import 'package:BuffedUp/src/screens/trainers/Trainerscreen.dart';
-import 'package:BuffedUp/src/services/firestore/_migrate.dart';
 import 'package:BuffedUp/src/widget/homeprofile.dart';
 import 'package:BuffedUp/src/widget/pagemenu.dart';
 import 'package:BuffedUp/src/widget/searchindicator.dart';
@@ -36,6 +37,7 @@ class HomeScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         homeprofile(user),
+
                         pagemenu(
                           "Members",
                           Icons.group,
@@ -43,12 +45,7 @@ class HomeScreen extends StatelessWidget {
                           navigator: const MemberScreen(),
                           subtext: "Many people!",
                         ),
-                        // pagemenu(
-                        //   "Expenses",
-                        //   Icons.attach_money,
-                        //   "00",
-                        //   subtext: "Poor guy:(",
-                        // ),
+
                         pagemenu(
                           "Trainers",
                           Icons.school,
@@ -62,6 +59,20 @@ class HomeScreen extends StatelessWidget {
                           user.equipments.length.toString(),
                           subtext: "Light weight baby",
                           navigator: const EquipmentScreen(),
+                        ),
+                        pagemenu(
+                          "Notes",
+                          Icons.note_add_outlined,
+                          "Tap",
+                          subtext: user.notes!.text,
+                          navigator: NoteScreen(),
+                        ),
+                        pagemenu(
+                          "Settings",
+                          Icons.settings,
+                          "",
+                          subtext: "only for elite trainers",
+                          navigator: SettingsScreen(user),
                         ),
                         // pagemenu(
                         //   "For Developers",

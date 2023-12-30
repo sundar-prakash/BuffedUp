@@ -15,22 +15,42 @@ class TrainerForm extends StatefulWidget {
 }
 
 class _TrainerFormState extends State<TrainerForm> {
+  late TextEditingController _registerNumberController;
+  late TextEditingController _nameController;
+  late TextEditingController _emailController;
+  late TextEditingController _genderController;
+  late TextEditingController _addressController;
+  late TextEditingController _phoneNumberController;
+  late TextEditingController _joinDateController;
+
+  @override
+  void initState() {
+    super.initState();
+    _registerNumberController =
+        TextEditingController(text: widget.trainer?.registerNumber.toString());
+    _nameController = TextEditingController(text: widget.trainer?.name);
+    _emailController = TextEditingController(text: widget.trainer?.email);
+    _genderController = TextEditingController(text: widget.trainer?.gender);
+    _addressController = TextEditingController(text: widget.trainer?.homeaddress);
+    _phoneNumberController = TextEditingController(text: widget.trainer?.phoneNumber);
+    _joinDateController = TextEditingController(
+        text: widget.trainer != null ? yearFormat(widget.trainer!.joinDate) : "");
+  }
+  @override
+  void dispose() {
+    _registerNumberController.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _genderController.dispose();
+    _addressController.dispose();
+    _phoneNumberController.dispose();
+    _joinDateController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _registerNumberController =
-        TextEditingController(text: widget.trainer?.registerNumber.toString());
-    final _nameController = TextEditingController(text: widget.trainer?.name);
-    final _emailController = TextEditingController(text: widget.trainer?.email);
-    final _genderController =
-        TextEditingController(text: widget.trainer?.gender);
-    final _addressController =
-        TextEditingController(text: widget.trainer?.homeaddress);
-    final _phoneNumberController =
-        TextEditingController(text: widget.trainer?.phoneNumber);
-    final _joinDateController = TextEditingController(
-        text:
-            widget.trainer != null ? yearFormat(widget.trainer!.joinDate) : "");
-
+    
     final _formKey = GlobalKey<FormState>();
 
     return Form(

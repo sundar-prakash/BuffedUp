@@ -42,6 +42,10 @@ dependencies:
   flutter_native_splash: ^2.3.7
   timelines: ^0.1.0
   timeline_tile: ^2.0.0
+  syncfusion_flutter_charts: ^21.2.4
+  http: ^1.1.0
+  url_launcher: ^6.2.2
+  url_launcher_web: ^2.2.0
 
 dev_dependencies:
   flutter_test:
@@ -132,7 +136,7 @@ flutter_native_splash:
 
   # The image parameter allows you to specify an image used in the splash screen.  It must be a
   # png file and should be sized for 4x pixel density.
-  image: asset/buffedupsplash.png
+  image: asset/splash.png
 
   # The branding property allows you to specify an image used as branding in the splash screen.
   # It must be a png file. It is supported for Android, iOS and the Web.  For Android 12,

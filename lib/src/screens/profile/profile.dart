@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:BuffedUp/const/DataTypes/UserProfile.dart';
-import 'package:BuffedUp/src/services/authService.dart';
 import 'package:BuffedUp/src/services/firestore/ownerdoc.dart';
 import 'package:BuffedUp/src/widget/decoratedtextinput.dart';
 import 'package:BuffedUp/src/widget/imagepicker.dart';
@@ -191,26 +190,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ]),
                         ))),
-                    TextButton.icon(
-                      onPressed: () {
-                        logout();
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(Icons.logout),
-                      label: const Text("Logout"),
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            side: const BorderSide(color: Colors.red),
-                            borderRadius: BorderRadius.circular(0.0),
-                          ),
-                        ),
-                        overlayColor: MaterialStateProperty.all(
-                            Colors.red.withOpacity(0.1)),
-                        minimumSize: MaterialStateProperty.all(
-                            const Size(double.infinity, 50)),
-                      ),
-                    )
+                    
                   ]),
             )));
   }

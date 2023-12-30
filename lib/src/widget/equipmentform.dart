@@ -14,13 +14,30 @@ class EquipmentForm extends StatefulWidget {
 }
 
 class _EquipmentFormState extends State<EquipmentForm> {
+   late TextEditingController _countController;
+  late TextEditingController _nameController;
+  late TextEditingController _descriptionController;
+
+  @override
+  void initState() {
+    super.initState();
+    _countController =
+        TextEditingController(text: widget.equipment?.count.toString());
+    _nameController = TextEditingController(text: widget.equipment?.name);
+    _descriptionController =
+        TextEditingController(text: widget.equipment?.description);
+  }
+
+  @override
+  void dispose() {
+    _countController.dispose();
+    _nameController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _countController =
-        TextEditingController(text: widget.equipment?.count.toString());
-    final _nameController = TextEditingController(text: widget.equipment?.name);
-    final _descriptionController =
-        TextEditingController(text: widget.equipment?.description);
 
     final _formKey = GlobalKey<FormState>();
 

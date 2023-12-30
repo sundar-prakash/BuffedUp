@@ -8,15 +8,18 @@ import 'package:BuffedUp/src/widget/text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:timeline_tile/timeline_tile.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class MemberWeightScreen extends StatelessWidget {
   final GymMember member;
-  const MemberWeightScreen(this.member, {super.key});
+
+  MemberWeightScreen(this.member, {super.key});
   void _openNewWeightDialog(
       BuildContext context, List<MeasurementType>? weightDatas) {
     TextEditingController valueController = TextEditingController();
     TextEditingController dateController = TextEditingController();
     final _formKey = GlobalKey<FormState>();
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -127,6 +130,8 @@ class MemberWeightScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TooltipBehavior _tooltipBehavior =
+        TooltipBehavior(enable: true, header: "Weight");
     List<MeasurementType>? weightDatas = member.weightData;
     return Scaffold(
       floatingActionButton: Container(
@@ -156,41 +161,64 @@ class MemberWeightScreen extends StatelessWidget {
             return weightDatas != null && weightDatas!.isNotEmpty
                 ? Padding(
                     padding: const EdgeInsets.all(10),
-                    child: Column(children: [
-                      SingleChildScrollView(
+                    child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: Column(
-                          children: weightDatas!
-                              .map((e) => TimelineTile(
-                                    indicatorStyle: const IndicatorStyle(
-                                      width: 20,
-                                      color: secondaryColor,
-                                    ),
-                                    alignment: TimelineAlign.start,
-                                    endChild: MemberWeightCard(e, onDelete:
-                                        (MeasurementType weightToDelete) async {
-                                      final res = await updateMemberField(
-                                          MemberData,
-                                          'weightData',
-                                          FieldValue.arrayRemove(
-                                              [weightToDelete.toMap()]));
-                                      try {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(res
-                                                ? 'Deleted Successfully!'
-                                                : 'An error occurred'),
-                                          ),
-                                        );
-                                      } catch (e) {}
-                                    }),
-                                  ))
-                              .toList(),
-                        ),
-                      ),
-                    ]),
-                  )
+                          children: [
+                            Container(
+                                child: SfCartesianChart(
+                                    tooltipBehavior: _tooltipBehavior,
+                                    title:
+                                        ChartTitle(text: "Body Weight Graph"),
+                                    primaryXAxis: DateTimeAxis(),
+                                    series: <CartesianSeries<ChartData,
+                                        DateTime>>[
+                                  LineSeries<ChartData, DateTime>(
+                                      enableTooltip: true,
+                                      dataLabelSettings:
+                                          DataLabelSettings(isVisible: true),
+                                      color: Colors.amber,
+                                      dataSource: weightDatas!
+                                          .map((e) =>
+                                              ChartData(e.recordedOn, e.value))
+                                          .toList(),
+                                      xValueMapper: (ChartData data, _) =>
+                                          data.x,
+                                      yValueMapper: (ChartData data, _) =>
+                                          data.y)
+                                ])),
+                            Column(
+                              children: weightDatas!
+                                  .map((e) => TimelineTile(
+                                        indicatorStyle: const IndicatorStyle(
+                                          width: 20,
+                                          color: secondaryColor,
+                                        ),
+                                        alignment: TimelineAlign.start,
+                                        endChild: MemberWeightCard(e, onDelete:
+                                            (MeasurementType
+                                                weightToDelete) async {
+                                          final res = await updateMemberField(
+                                              MemberData,
+                                              'weightData',
+                                              FieldValue.arrayRemove(
+                                                  [weightToDelete.toMap()]));
+                                          try {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(res
+                                                    ? 'Deleted Successfully!'
+                                                    : 'An error occurred'),
+                                              ),
+                                            );
+                                          } catch (e) {}
+                                        }),
+                                      ))
+                                  .toList(),
+                            ),
+                          ],
+                        )))
                 : const Center(child: MediumText("No Data Found!"));
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
@@ -201,4 +229,10 @@ class MemberWeightScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+class ChartData {
+  ChartData(this.x, this.y);
+  final DateTime x;
+  final double y;
 }

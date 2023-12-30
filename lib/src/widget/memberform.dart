@@ -16,35 +16,66 @@ class MemberForm extends StatefulWidget {
 }
 
 class _MemberFormState extends State<MemberForm> {
+  late TextEditingController _registerNumberController;
+  late TextEditingController _nameController;
+  late TextEditingController _emailController;
+  late TextEditingController _genderController;
+  late TextEditingController _addressController;
+  late TextEditingController _phoneNumberController;
+  late TextEditingController _joinDateController;
+  late TextEditingController _categoryController;
+  late TextEditingController _amountController;
+  late TextEditingController _paidOnController;
+  late TextEditingController _validityController;
+
   @override
-  Widget build(BuildContext context) {
-    final _registerNumberController =
+  void initState() {
+    super.initState();
+    _registerNumberController =
         TextEditingController(text: widget.member?.registerNumber.toString());
-    final _nameController = TextEditingController(text: widget.member?.name);
-    final _emailController = TextEditingController(text: widget.member?.email);
-    final _genderController =
-        TextEditingController(text: widget.member?.gender);
-    final _addressController =
+    _nameController = TextEditingController(text: widget.member?.name);
+    _emailController = TextEditingController(text: widget.member?.email);
+    _genderController = TextEditingController(text: widget.member?.gender);
+    _addressController =
         TextEditingController(text: widget.member?.homeaddress);
-    final _phoneNumberController =
+    _phoneNumberController =
         TextEditingController(text: widget.member?.phoneNumber);
-    final _joinDateController = TextEditingController(
+    _joinDateController = TextEditingController(
         text: widget.member != null
             ? DateTimetoString(widget.member!.joinDate)
             : "");
-    final _categoryController = TextEditingController(
+    _categoryController = TextEditingController(
         text: widget.member != null
             ? widget.member?.membershipType.category
             : "");
-    final _amountController = TextEditingController(
+    _amountController = TextEditingController(
         text: widget.member?.membershipType.amount.toString());
-    final _paidOnController = TextEditingController(
+    _paidOnController = TextEditingController(
         text: widget.member != null
             ? DateTimetoString(widget.member!.membershipType.paidon)
             : "");
-    final _validityController = TextEditingController(
+    _validityController = TextEditingController(
         text: widget.member?.membershipType.validity.inDays.toString());
+  }
 
+  @override
+  void dispose() {
+    _registerNumberController.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _genderController.dispose();
+    _addressController.dispose();
+    _phoneNumberController.dispose();
+    _joinDateController.dispose();
+    _categoryController.dispose();
+    _amountController.dispose();
+    _paidOnController.dispose();
+    _validityController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
 
     return Form(
@@ -120,9 +151,8 @@ class _MemberFormState extends State<MemberForm> {
                     if (value.length > 15) {
                       return 'Maximum 15 characters allowed';
                     }
-                    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                        .hasMatch(value)) {
-                      return 'Enter a valid gender';
+                    if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+                      return 'Enter a valid gender (only alphabets)';
                     }
                   }
                   return null;

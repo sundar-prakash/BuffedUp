@@ -9,6 +9,7 @@ Future createMemberDocument(GymMember member) async {
     final docRef = FirebaseFirestore.instance.collection('members').doc();
     await docRef.set(member.toMap());
     await updateOwner('members', FieldValue.arrayUnion([docRef.id]));
+    return true;
   } catch (e) {
     return false;
   }
