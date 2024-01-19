@@ -23,6 +23,8 @@ class _MemberScreenState extends State<MemberScreen> {
   bool _isSearching = false;
   int _currentFilter = 0;
   late Query memberQuery;
+  int validityValue = 0;
+  bool isValidityVisible = false;
 
   @override
   void initState() {
@@ -110,6 +112,26 @@ class _MemberScreenState extends State<MemberScreen> {
     });
   }
 
+  void openValiditySlider() {
+    setState(() {
+      isValidityVisible ? isValidityVisible = false : isValidityVisible = true;
+    });
+  }
+
+  void adjustValidity() async {
+    setState(() {
+      _isSearching = true;
+      memberQuery = FirebaseFirestore.instance
+          .collection('members')
+          .where('gymownerid', isEqualTo: user.uid)
+          .where('membershipType.validity', isEqualTo: validityValue);
+    });
+    await Future.delayed(const Duration(seconds: 1));
+    setState(() {
+      _isSearching = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -147,6 +169,7 @@ class _MemberScreenState extends State<MemberScreen> {
                     ),
                     _FilterRadioButtons(
                       currentFilter: _currentFilter,
+                      validity: validityValue,
                       onChanged: (newValue) {
                         setState(() {
                           _currentFilter = newValue;
@@ -157,9 +180,26 @@ class _MemberScreenState extends State<MemberScreen> {
                           fetchActiveMembers();
                         } else if (_currentFilter == 2) {
                           fetchExpiredMembers();
+                        } else if (_currentFilter == 3) {
+                          openValiditySlider();
                         }
                       },
                     ),
+                    if (isValidityVisible)
+                      Slider(
+                        value: validityValue.toDouble(),
+                        onChanged: (value) async {
+                          setState(() {
+                            validityValue = value.round();
+                          });
+                          await Future.delayed(Duration(milliseconds: 1000));
+                          adjustValidity();
+                        },
+                        min: 0,
+                        max: 360,
+                        divisions: 12,
+                        label: validityValue.toString(),
+                      ),
                     Expanded(
                       child: _isSearching
                           ? SearchingIndicator(
@@ -189,11 +229,13 @@ class _MemberScreenState extends State<MemberScreen> {
 class _FilterRadioButtons extends StatelessWidget {
   final int currentFilter;
   final ValueChanged<int> onChanged;
+  final int validity;
 
   const _FilterRadioButtons({
     super.key,
     required this.currentFilter,
     required this.onChanged,
+    required this.validity,
   });
 
   @override
@@ -219,6 +261,12 @@ class _FilterRadioButtons extends StatelessWidget {
             CustomRadioButton(
               text: "Expired",
               value: 2,
+              groupValue: currentFilter,
+              onChanged: onChanged,
+            ),
+            CustomRadioButton(
+              text: "Validity(days): $validity ",
+              value: 3,
               groupValue: currentFilter,
               onChanged: onChanged,
             ),
