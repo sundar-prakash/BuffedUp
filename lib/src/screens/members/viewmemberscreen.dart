@@ -2,6 +2,7 @@ import 'package:BuffedUp/const/DataTypes/GymMember.dart';
 import 'package:BuffedUp/src/screens/members/editmemberscreen.dart';
 import 'package:BuffedUp/src/screens/members/memberweightscreen.dart';
 import 'package:BuffedUp/src/services/firestore/memberdoc.dart';
+import 'package:BuffedUp/src/widget/Dialogs.dart';
 import 'package:BuffedUp/src/widget/membertile.dart';
 import 'package:BuffedUp/src/widget/memberweightcard.dart';
 import 'package:flutter/material.dart';
@@ -128,16 +129,27 @@ class ViewMemberScreen extends StatelessWidget {
                   children: [
                     TextButton.icon(
                       onPressed: () async {
-                        bool res = await deleteMemberDocument(
-                            member.gymownerid, member.registerNumber);
+                        late bool res;
+                        await showDialog(
+                            context: context,
+                            builder: (_) {
+                              return DeleteConfirmationDialog(
+                                  onConfirm: () async {
+                                res = await deleteMemberDocument(
+                                    member.gymownerid, member.registerNumber);
+                              });
+                            });
                         Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(res
-                                ? 'Deleted Successfully !'
-                                : "An error occured"),
-                          ),
-                        );
+
+                        try {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(res
+                                  ? 'Deleted Successfully!'
+                                  : 'An error occurred'),
+                            ),
+                          );
+                        } catch (e) {}
                       },
                       icon: const Icon(Icons.delete),
                       label: const Text("Delete"),

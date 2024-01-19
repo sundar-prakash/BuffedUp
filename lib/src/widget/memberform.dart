@@ -102,9 +102,9 @@ class _MemberFormState extends State<MemberForm> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Name is required';
-                  } else if (RegExp(r'^[a-zA-Z]+(?: [a-zA-Z]+)*$')
+                  } else if (!RegExp(r'^[a-zA-Z]+(?: [a-zA-Z]+)*$')
                       .hasMatch(value)) {
-                    return 'Name should not contain special characters or numbers';
+                    return 'Name should only contain letters (a to z, A to Z)';
                   } else if (value.startsWith('.') || value.endsWith('.')) {
                     return 'Name should not start or end with a dot';
                   }
