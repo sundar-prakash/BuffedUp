@@ -46,40 +46,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     },
                   ),
                   const Divider(),
-                  ListTile(
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    leading: const Icon(Icons.dark_mode),
-                    title: const Text("Dark Mode"),
-                    onTap: () {
-                      setState(() {
-                        isDarkMode = !isDarkMode;
-                      });
-                    },
-                    trailing: Switch(
-                      onChanged: (bool value) {
-                        setState(() {
-                          isDarkMode = value; // Update the dark mode status
-                          // You can update your app's theme or settings here
-                        });
-                      },
-                      value:
-                          isDarkMode, // Set the switch value based on dark mode status
-                    ),
-                  ),
-                  const Divider(),
-                  ListTile(
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    leading: const Icon(Icons.color_lens),
-                    title: const Text("Main Color"),
-                    onTap: () {
-                      setState(() {
-                        isDarkMode = !isDarkMode;
-                      });
-                    },
-                  ),
-                  const Divider(),
+
                   ListTile(
                     onTap: () {
                       Navigator.push(

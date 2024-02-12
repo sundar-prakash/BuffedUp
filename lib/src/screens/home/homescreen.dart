@@ -1,5 +1,6 @@
 import 'package:BuffedUp/const/Captions.dart';
 import 'package:BuffedUp/const/DataTypes/UserProfile.dart';
+import 'package:BuffedUp/src/screens/auth/subscription.dart';
 import 'package:BuffedUp/src/screens/equipments/equipmentscreen.dart';
 import 'package:BuffedUp/src/screens/members/memberscreen.dart';
 import 'package:BuffedUp/src/screens/notes/notescreen.dart';
@@ -31,59 +32,66 @@ class HomeScreen extends StatelessWidget {
                 final userProfileData = snapshot.data!.data();
                 if (userProfileData != null) {
                   final user = UserProfile.fromMap(userProfileData);
-
-                  return SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        homeprofile(user),
-
-                        pagemenu(
-                          "Members",
-                          Icons.group,
-                          user.members.length.toString(),
-                          navigator: const MemberScreen(),
-                          subtext: "Many people!",
-                        ),
-
-                        pagemenu(
-                          "Trainers",
-                          Icons.school,
-                          user.trainers.length.toString(),
-                          subtext: "69 more rep...",
-                          navigator: const TrainerScreen(),
-                        ),
-                        pagemenu(
-                          "Equipment",
-                          Icons.fitness_center,
-                          user.equipments.length.toString(),
-                          subtext: "Light weight baby",
-                          navigator: const EquipmentScreen(),
-                        ),
-                        pagemenu(
-                          "Notes",
-                          Icons.note_add_outlined,
-                          "Tap",
-                          subtext: user.notes!.text,
-                          navigator: NoteScreen(),
-                        ),
-                        pagemenu(
-                          "Settings",
-                          Icons.settings,
-                          "",
-                          subtext: "only for elite trainers",
-                          navigator: SettingsScreen(user),
-                        ),
-                        // pagemenu(
-                        //   "For Developers",
-                        //   Icons.developer_board,
-                        //   "! 4 u",
-                        //   subtext: "Dont click mfer",
-                        //   navigator: FirestoreImportScreen(),
-                        // ),
-                      ],
-                    ),
-                  );
+                  if (user.subscriptionHistory != null &&
+                      user.subscriptionHistory!.isNotEmpty) {
+                    if (DateTime.now()
+                        .isAfter(user.subscriptionHistory![0].expiryDate)) {
+                      return SubscribeScreen(
+                          message: "Your current plan has been expired");
+                    }
+                    return SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          homeprofile(user),
+                          pagemenu(
+                            "Members",
+                            Icons.group,
+                            user.members.length.toString(),
+                            navigator: const MemberScreen(),
+                            subtext: "Many people!",
+                          ),
+                          pagemenu(
+                            "Trainers",
+                            Icons.school,
+                            user.trainers.length.toString(),
+                            subtext: "69 more rep...",
+                            navigator: const TrainerScreen(),
+                          ),
+                          pagemenu(
+                            "Equipment",
+                            Icons.fitness_center,
+                            user.equipments.length.toString(),
+                            subtext: "Light weight baby",
+                            navigator: const EquipmentScreen(),
+                          ),
+                          pagemenu(
+                            "Notes",
+                            Icons.note_add_outlined,
+                            "Tap",
+                            subtext: user.notes!.text,
+                            navigator: NoteScreen(),
+                          ),
+                          pagemenu(
+                            "Settings",
+                            Icons.settings,
+                            "",
+                            subtext: "only for elite trainers",
+                            navigator: SettingsScreen(user),
+                          ),
+                          // pagemenu(
+                          //   "For Developers",
+                          //   Icons.developer_board,
+                          //   "! 4 u",
+                          //   subtext: "Dont click mfer",
+                          //   navigator: FirestoreImportScreen(),
+                          // ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return SubscribeScreen();
+                  }
                 } else {
                   return SearchingIndicator();
                 }

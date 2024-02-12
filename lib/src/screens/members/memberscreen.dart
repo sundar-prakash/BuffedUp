@@ -243,34 +243,36 @@ class _FilterRadioButtons extends StatelessWidget {
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 10),
         padding: const EdgeInsets.symmetric(vertical: 5),
-        child: Row(
-          children: [
-            const Icon(Icons.filter_list_alt),
-            CustomRadioButton(
-              text: "All",
-              value: 0,
-              groupValue: currentFilter,
-              onChanged: onChanged,
-            ),
-            CustomRadioButton(
-              text: "Active",
-              value: 1,
-              groupValue: currentFilter,
-              onChanged: onChanged,
-            ),
-            CustomRadioButton(
-              text: "Expired",
-              value: 2,
-              groupValue: currentFilter,
-              onChanged: onChanged,
-            ),
-            CustomRadioButton(
-              text: "Validity(days): $validity ",
-              value: 3,
-              groupValue: currentFilter,
-              onChanged: onChanged,
-            ),
-          ],
-        ));
+        child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                const Icon(Icons.filter_list_alt),
+                CustomRadioButton(
+                  text: "All",
+                  value: 0,
+                  groupValue: currentFilter,
+                  onChanged: onChanged,
+                ),
+                CustomRadioButton(
+                  text: "Active",
+                  value: 1,
+                  groupValue: currentFilter,
+                  onChanged: onChanged,
+                ),
+                CustomRadioButton(
+                  text: "Expired",
+                  value: 2,
+                  groupValue: currentFilter,
+                  onChanged: onChanged,
+                ),
+                CustomRadioButton(
+                  text: "Validity(days): $validity ",
+                  value: 3,
+                  groupValue: currentFilter,
+                  onChanged: onChanged,
+                ),
+              ],
+            )));
   }
 }

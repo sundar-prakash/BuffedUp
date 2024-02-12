@@ -53,9 +53,30 @@ class homeprofile extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    BigText(
-                      "Hello, ${user.name}",
-                      bold: true,
+                    Row(
+                      children: [
+                        BigText(
+                          "Hello, ${user.name}",
+                          bold: true,
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        if (user.subscriptionHistory![0].planID
+                            .toString()
+                            .startsWith('2'))
+                          OutlinedButton(
+                            style: ButtonStyle(
+                              foregroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.amber),
+                              side: MaterialStateProperty.all<BorderSide>(
+                                BorderSide(color: Colors.amber),
+                              ),
+                            ),
+                            child: Text("Premium"),
+                            onPressed: null,
+                          )
+                      ],
                     ),
                     BigText(getGreeting()),
                     MediumText(

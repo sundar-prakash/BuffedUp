@@ -1,3 +1,5 @@
+import 'package:BuffedUp/const/DataTypes/GymMember.dart';
+
 class UserProfile {
   final String uid;
   final String email;
@@ -7,6 +9,7 @@ class UserProfile {
   String avatar;
   String gymName;
   notesType? notes;
+  List<PaymentHistory>? subscriptionHistory;
   List<dynamic> members;
   List<dynamic> trainers;
   List<dynamic> equipments;
@@ -21,6 +24,7 @@ class UserProfile {
     this.avatar = '',
     this.gymName = '',
     this.notes,
+    this.subscriptionHistory,
     this.members = const [],
     this.trainers = const [],
     this.equipments = const [],
@@ -40,6 +44,7 @@ class UserProfile {
       'trainers': trainers,
       'notes': notes?.toMap(), // Convert notesType to a map
       'equipments': equipments,
+      'subscriptionHistory': subscriptionHistory,
       'expenses': expenses,
     };
   }
@@ -55,6 +60,10 @@ class UserProfile {
       avatar: map['avatar'] != null ? map['avatar'] as String : '',
       gymName: map['gymname'] != null ? map['gymname'] as String : '',
       members: (map['members'] as List<dynamic>?)?.toList() ?? [],
+      subscriptionHistory: (map['subscriptionHistory'] as List<dynamic>?)
+              ?.map((historyMap) => PaymentHistory.fromMap(historyMap))
+              .toList() ??
+          [],
       equipments: (map['equipments'] as List<dynamic>?)?.toList() ?? [],
       expenses: (map['expenses'] as List<dynamic>?)?.toList() ?? [],
       trainers: (map['trainers'] as List<dynamic>?)?.toList() ?? [],
@@ -93,3 +102,67 @@ class notesType {
     );
   }
 }
+
+class SubscriptionPlan {
+  final int id;
+  final String name;
+  final double price;
+  final Duration validity;
+  final List<String> description;
+
+  SubscriptionPlan({
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.validity,
+    required this.description,
+  });
+
+  factory SubscriptionPlan.fromMap(Map<String, dynamic> map) {
+    return SubscriptionPlan(
+      id: map['id'] ?? 0,
+      name: map['name'] ?? '',
+      price: (map['price'] ?? 0.0).toDouble(),
+      validity: Duration(days: map['validity_days'] ?? 0),
+      description: List<String>.from(map['description'] ?? []),
+    );
+  }
+}
+
+
+class PaymentHistory {
+  final int planID;
+  final String gateway;
+  final DateTime paidOn;
+  final DateTime expiryDate;
+  final String transactionid;
+
+  PaymentHistory({
+    required this.planID,
+    required this.paidOn,
+    required this.expiryDate,
+    required this.transactionid,
+    required this.gateway,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'planID': planID,
+      'gateway': gateway,
+      'paidOn': paidOn,
+      'expiryDate': expiryDate,
+      'transactionid': transactionid,
+    };
+  }
+
+  factory PaymentHistory.fromMap(Map<String, dynamic> map) {
+    return PaymentHistory(
+      planID: map['planID'] as int,
+      gateway: map['gateway'] as String,
+      paidOn: timestampToDateTime(map['paidOn']),
+      expiryDate: timestampToDateTime(map['expiryDate']),
+      transactionid: map['transactionid'] as String,
+    );
+  }
+}
+
