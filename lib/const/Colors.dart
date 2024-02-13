@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-const Color primaryColor = Color(0xFFF07138);
-const Color secondaryColor = Color(0xffe16dbd);
-const Color accentColor = Color(0xFFFFC453);
-const Color backgroundColor = Color(0xFFFBFBFD);
+const Color primaryColor = Color(0xFF5926E2);
+const Color secondaryColor = Color(0xff69D8C5);
+const Color accentColor = Color(0xFFA6E1F2);
+const Color backgroundColor = Color(0xFFF5F2F5);
 
-const Color textColorPrimary = Color(0xFF333333); 
-const Color textColorSecondary = Color.fromARGB(255, 37, 37, 37); 
+const Color textColorPrimary = Color(0xFF020002);
+const Color textColorSecondary = Color(0xff000000);
 
 final ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,

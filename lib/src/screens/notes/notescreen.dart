@@ -66,7 +66,6 @@ class _NoteScreenState extends State<NoteScreen> {
       setState(() {
         lastSavedDateTime = n.lastSaved;
       });
-      print('Text saved: $text');
     });
   }
 
@@ -94,6 +93,15 @@ class _NoteScreenState extends State<NoteScreen> {
                     onPressed: () {
                       setState(() {
                         _colorIndex = _backgroundColor.indexOf(color);
+                      });
+                      notesType n = notesType(
+                        colorIndex: _colorIndex,
+                        lastSaved: DateTime.now(),
+                        text: _textEditingController.text,
+                      );
+                      updateOwner('notes', n.toMap());
+                      setState(() {
+                        lastSavedDateTime = n.lastSaved;
                       });
                       Navigator.pop(context);
                     },

@@ -107,6 +107,7 @@ class SubscriptionPlan {
   final int id;
   final String name;
   final double price;
+  final int limit;
   final Duration validity;
   final List<String> description;
 
@@ -114,6 +115,7 @@ class SubscriptionPlan {
     required this.id,
     required this.name,
     required this.price,
+    required this.limit,
     required this.validity,
     required this.description,
   });
@@ -122,13 +124,13 @@ class SubscriptionPlan {
     return SubscriptionPlan(
       id: map['id'] ?? 0,
       name: map['name'] ?? '',
+      limit: map['limit'] ?? 0,
       price: (map['price'] ?? 0.0).toDouble(),
       validity: Duration(days: map['validity_days'] ?? 0),
       description: List<String>.from(map['description'] ?? []),
     );
   }
 }
-
 
 class PaymentHistory {
   final int planID;
@@ -165,4 +167,3 @@ class PaymentHistory {
     );
   }
 }
-

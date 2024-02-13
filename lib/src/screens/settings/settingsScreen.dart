@@ -1,6 +1,7 @@
 import 'package:BuffedUp/const/DataTypes/UserProfile.dart';
 import 'package:BuffedUp/src/screens/profile/profile.dart';
 import 'package:BuffedUp/src/screens/settings/devloperinfoscreen.dart';
+import 'package:BuffedUp/src/screens/subscription/subscriptionscreen.dart';
 import 'package:BuffedUp/src/services/authService.dart';
 import 'package:flutter/material.dart';
 
@@ -62,6 +63,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     title: Text("Developer Info"),
                   ),
                   const Divider(),
+
+                  if (widget.user.subscriptionHistory!.isEmpty ||
+                      DateTime.now().isAfter(
+                          widget.user.subscriptionHistory![0].expiryDate))
+                    ListTile(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SubscribeScreen(),
+                          ),
+                        );
+                      },
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      leading: Icon(Icons.add_card),
+                      title: Text("Subscribe"),
+                    ),
+                  const Divider(),
+
                   const Spacer(),
                   const SizedBox(
                       height: 20), // Add space at the bottom of the ListView

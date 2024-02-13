@@ -1,6 +1,7 @@
 import 'package:BuffedUp/const/DataTypes/GymMember.dart';
 import 'package:BuffedUp/const/DataTypes/UserProfile.dart';
 import 'package:BuffedUp/src/screens/members/newmemberscreen.dart';
+import 'package:BuffedUp/src/screens/subscription/subscriptionscreen.dart';
 import 'package:BuffedUp/src/services/firestore/ownerdoc.dart';
 import 'package:BuffedUp/src/widget/customradiobutton.dart';
 import 'package:BuffedUp/src/widget/membertile.dart';
@@ -25,6 +26,7 @@ class _MemberScreenState extends State<MemberScreen> {
   late Query memberQuery;
   int validityValue = 0;
   bool isValidityVisible = false;
+  SubscriptionPlan? currentPlan;
 
   @override
   void initState() {
@@ -43,9 +45,15 @@ class _MemberScreenState extends State<MemberScreen> {
       _isLoading = false;
     });
     await Future.delayed(const Duration(seconds: 1));
+
+    final currentPlanfetch = await fetchSubscriptionPlans(
+        id: user.subscriptionHistory!.isNotEmpty
+            ? user.subscriptionHistory![0].planID
+            : 404);
     setState(() {
       _isSearching = false;
     });
+    if (currentPlanfetch.isNotEmpty) currentPlan = currentPlanfetch[0];
   }
 
   Future<void> searchMembers(String query) async {
@@ -134,6 +142,8 @@ class _MemberScreenState extends State<MemberScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final currentPlanlimit = currentPlan?.limit ?? 50;
+
     return Scaffold(
         appBar: AppBar(
           elevation: 2,
@@ -143,7 +153,12 @@ class _MemberScreenState extends State<MemberScreen> {
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => NewMemberScreen(user.uid)),
+                    builder: (context) => user.members.length >=
+                            currentPlanlimit
+                        ? const SubscribeScreen(
+                            message:
+                                "You exceeded the limit of your current plan !")
+                        : NewMemberScreen(user.uid)),
               ),
               icon: const Icon(Icons.add_circle_outline),
             ),
@@ -192,7 +207,7 @@ class _MemberScreenState extends State<MemberScreen> {
                           setState(() {
                             validityValue = value.round();
                           });
-                          await Future.delayed(Duration(milliseconds: 1000));
+                          await Future.delayed(const Duration(milliseconds: 1000));
                           adjustValidity();
                         },
                         min: 0,
