@@ -270,6 +270,7 @@ class _MemberFormState extends State<MemberForm> {
                           homeaddress: _addressController.text,
                           gender: _genderController.text,
                           profilePicture: '',
+                          weightData: widget.member?.weightData,
 
                           //profile pic
                           membershipType: MembershipType(

@@ -103,6 +103,11 @@ class ViewMemberScreen extends StatelessWidget {
                   ),
                 ),
                 ListTile(
+                  leading: const Icon(Icons.calendar_month_outlined),
+                  title: Text(
+                      'Expires on : ${DateTimetoString(member.membershipType.expiryDate)}'),
+                ),
+                ListTile(
                   leading: const Icon(
                     Icons.dashboard,
                   ),

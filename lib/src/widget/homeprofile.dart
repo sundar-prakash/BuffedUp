@@ -36,17 +36,17 @@ class homeprofile extends StatelessWidget {
         onDoubleTap: () => Navigator.push(context,
             MaterialPageRoute(builder: (context) => ProfileScreen(user))),
         child: Container(
-            margin: EdgeInsets.all(20),
+            margin: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.5),
                   spreadRadius: 5,
                   blurRadius: 7,
-                  offset: Offset(0, 3), // changes position of shadow
+                  offset: const Offset(0, 3), // changes position of shadow
                 ),
               ],
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
@@ -69,25 +69,24 @@ class homeprofile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "${user.name}",
-                      style: TextStyle(
-                          fontSize: 24.0,
-                          color: Colors.white,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Text(
-                      "${user.gymName} Gym",
-                      style: TextStyle(
-                        fontSize: 15.0,
+                      user.name,
+                      style: const TextStyle(
+                        fontSize: 24.0,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      "${user.gymName} Gym",
+                      style: const TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(
                       height: 20,
                     ),
                     if (isSubscribed)
@@ -95,43 +94,43 @@ class homeprofile extends StatelessWidget {
                         children: [
                           Column(
                             children: [
-                              Text(
+                              const Text(
                                 "Paid on",
                                 style: TextStyle(
                                   fontSize: 12.0,
                                   color: Colors.white,
-                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Text(
-                                "${DateTimetoString(user.subscriptionHistory![0].paidOn)}",
-                                style: TextStyle(
+                                DateTimetoString(
+                                    user.subscriptionHistory![0].paidOn),
+                                style: const TextStyle(
                                   fontSize: 12.0,
+                                  fontFamily: 'credc',
                                   color: Colors.white,
-                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
                           ),
                           Column(
                             children: [
-                              Text(
+                              const Text(
                                 "Expires",
                                 style: TextStyle(
                                   fontSize: 12.0,
                                   color: Colors.white,
-                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Text(
-                                "${DateTimetoString(user.subscriptionHistory![0].expiryDate)}",
-                                style: TextStyle(
+                                DateTimetoString(
+                                    user.subscriptionHistory![0].expiryDate),
+                                style: const TextStyle(
                                   fontSize: 12.0,
+                                  fontFamily: 'credc',
                                   color: Colors.white,
-                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ],

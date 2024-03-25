@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
                       user.subscriptionHistory!.isNotEmpty) {
                     //if subscripton has expired
                     if (DateTime.now()
-                        .isAfter(user.subscriptionHistory![0].expiryDate)) {
+                        .isAfter(user.subscriptionHistory!.last.expiryDate)) {
                       return SubscribeScreen(
                           message: "Your current plan has been expired");
                     }

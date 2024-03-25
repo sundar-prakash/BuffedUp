@@ -117,7 +117,7 @@ class MemberWeightScreen extends StatelessWidget {
                       ),
                     );
                   } catch (e) {}
-                  Navigator.pop(context);
+                  Navigator.popUntil(context, (route) => route.isFirst);
                 }
               },
               child: const Text('Save'),
